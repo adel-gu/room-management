@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
-import { BarChart3, Bed, CalendarRange, Settings, Users } from 'lucide-react';
+import {
+  BarChart3,
+  Bed,
+  CalendarRange,
+  PersonStanding,
+  Settings,
+  Users,
+} from 'lucide-react';
 
 import SideNavLink from './ui/SideNavLink';
 
@@ -27,6 +34,11 @@ const navLinks = [
     title: 'Bookings',
     path: '/bookings',
     icon: <CalendarRange />,
+  },
+  {
+    title: 'Guests',
+    path: '/guests',
+    icon: <PersonStanding />,
   },
   {
     title: 'Rooms',
