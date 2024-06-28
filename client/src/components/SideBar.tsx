@@ -1,4 +1,10 @@
+import styled from 'styled-components';
+
+const StyledSideBar = styled.aside`
+  grid-row: 1 / -1;
+`;
+
 const SideBar = () => {
-  return <div>SideBar</div>;
+  return <StyledSideBar>SideBar</StyledSideBar>;
 };
 export default SideBar;
