@@ -37,6 +37,7 @@ const schema = new mongoose.Schema<IRoom, RoomModelType>({
   createdAt: {
     type: Date,
     default: Date.now(),
+    immutable: true,
   },
 });
 
