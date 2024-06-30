@@ -6,7 +6,7 @@ const readAllDoc = (model: string) => async (req: Request, res: Response) => {
     const Model = mongoose.model(model);
     const docs = await Model.find();
 
-    res.status(201).json({ status: 'success', data: docs });
+    res.status(200).json({ status: 'success', data: docs });
   } catch (error) {
     console.log('ERROR 💥:', error);
     res.status(500).json({ status: 'error', message: 'Server Error' });

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Room } from '../types/room';
+import { useReadAllRooms } from '../hooks/room';
+
 import RoomRow from './RoomRow';
 
 const Table = styled.div`
@@ -32,46 +33,11 @@ const TableBody = styled.div`
   margin: 0.4rem 0;
 `;
 
-const rooms: Room[] = [
-  {
-    id: '001',
-    name: '001',
-    maxCapacity: 2,
-    regularPrice: 200,
-    discount: 20,
-    description: '',
-    image: 'room.jpg',
-  },
-  {
-    id: '002',
-    name: '002',
-    maxCapacity: 2,
-    regularPrice: 200,
-    discount: 20,
-    description: '',
-    image: 'room.jpg',
-  },
-  {
-    id: '003',
-    name: '003',
-    maxCapacity: 2,
-    regularPrice: 200,
-    discount: 20,
-    description: '',
-    image: 'room.jpg',
-  },
-  {
-    id: '004',
-    name: '004',
-    maxCapacity: 2,
-    regularPrice: 200,
-    discount: 20,
-    description: '',
-    image: 'room.jpg',
-  },
-];
-
 const RoomsTable = () => {
+  const { rooms, isRoomsLoading } = useReadAllRooms();
+
+  if (isRoomsLoading) return <span>Loading...</span>;
+
   return (
     <Table>
       <TableHeader>
@@ -83,8 +49,8 @@ const RoomsTable = () => {
         <div></div>
       </TableHeader>
       <TableBody>
-        {rooms.map((room) => (
-          <RoomRow key={room.id} room={room} />
+        {rooms?.map((room) => (
+          <RoomRow key={room._id} room={room} />
         ))}
       </TableBody>
     </Table>

@@ -1,5 +1,5 @@
 export interface Room {
-  id: string;
+  _id: string;
   name: string;
   maxCapacity: number;
   regularPrice: number;
