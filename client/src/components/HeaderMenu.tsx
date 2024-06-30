@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
 
-import ButtonIcon from './ButtonIcon';
+import ButtonIcon from './ui/ButtonIcon';
 import DarkMode from './DarkMode';
 import Logout from './Logout';
 import styled from 'styled-components';

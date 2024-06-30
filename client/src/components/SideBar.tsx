@@ -9,7 +9,7 @@ import {
   Users,
 } from 'lucide-react';
 
-import SideNavLink from './ui/SideNavLink';
+import SideNavLink from './SideNavLink';
 
 const StyledSideBar = styled.aside`
   grid-row: 1 / -1;
