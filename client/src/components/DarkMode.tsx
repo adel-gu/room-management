@@ -1,5 +1,5 @@
 import { SunMoon } from 'lucide-react';
-import ButtonIcon from './ButtonIcon';
+import ButtonIcon from './ui/ButtonIcon';
 
 const DarkMode = () => {
   return (
