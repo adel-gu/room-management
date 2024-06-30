@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 // Styles
 import GlobalStyles from './styles/index.ts';
+import { Toaster } from 'react-hot-toast';
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <App />
+        <Toaster position="top-right" reverseOrder={false} />
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>,
