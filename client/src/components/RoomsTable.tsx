@@ -12,9 +12,7 @@ const Table = styled.div`
   border-radius: 7px;
   overflow: hidden;
 
-  /* TODO: add a box shadow */
-  /* box-shadow: 10px 4px 8px 0 rgba(100, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 100, 0, 0.19); */
+  box-shadow: var(--shadow-md);
 `;
 
 const TableHeader = styled.div`
