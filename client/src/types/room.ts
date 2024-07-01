@@ -35,7 +35,11 @@ export const formSchema = z
       })
       .min(1),
     discount: z.coerce.number().optional(),
-    description: z.string().trim().optional(),
+    description: z
+      .string()
+      .trim()
+      .max(250, 'Description must contain at most 250 character(s)')
+      .optional(),
     roomImage: z.instanceof(File).optional().nullable(),
   })
   .superRefine((data, ctx) => {
