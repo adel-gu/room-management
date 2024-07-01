@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { readAllRooms } from '../../api/room';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createNewRoomRequest, readAllRoomsRequest } from '../../api/room';
 import toast from 'react-hot-toast';
 
 export const useReadAllRooms = () => {
@@ -9,7 +9,7 @@ export const useReadAllRooms = () => {
     error,
   } = useQuery({
     queryKey: ['readAllRooms'],
-    queryFn: readAllRooms,
+    queryFn: readAllRoomsRequest,
   });
 
   if (error) toast.error(error.message);
@@ -18,4 +18,22 @@ export const useReadAllRooms = () => {
     rooms,
     isRoomsLoading,
   };
+};
+
+export const useCreateNewRoom = () => {
+  const queryClient = useQueryClient();
+  const { mutate: createNewRoom, isPending: isCreatingRoomPending } =
+    useMutation({
+      mutationKey: ['createRoom'],
+      mutationFn: createNewRoomRequest,
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['readAllRooms'] });
+        toast.success('Room created successfully');
+      },
+      onError: (err) => {
+        toast.error(err.message);
+      },
+    });
+
+  return { createNewRoom, isCreatingRoomPending };
 };
