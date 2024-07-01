@@ -1,4 +1,3 @@
-import { X } from 'lucide-react';
 import {
   cloneElement,
   createContext,
@@ -10,6 +9,8 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import { X } from 'lucide-react';
+import useClickOut from '../hooks/utils/useClickOut';
 
 /* -------------------------------------------------------------------------- */
 /*                                    Props                                   */
@@ -113,12 +114,13 @@ const ModalTrigger: FC<ModalTriggerProps> = ({ children }) => {
 
 const ModalContent: FC<ModalContentProps> = ({ children }) => {
   const { isOpen, closeModal } = useContext(ModalContext);
+  const ref = useClickOut(closeModal);
 
   if (!isOpen) return;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <CloseBtn onClick={closeModal}>
           <X />
         </CloseBtn>
