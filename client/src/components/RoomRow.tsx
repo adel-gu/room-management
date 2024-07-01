@@ -49,7 +49,9 @@ const RoomRow = ({ room }: Props) => {
       <RoomName>{room.name}</RoomName>
       <RoomCapacity>Fills up to {room.maxCapacity} guests</RoomCapacity>
       <RoomPrice>{formatCurrency(room.regularPrice)}</RoomPrice>
-      <RoomDiscount>{formatCurrency(room.discount)}</RoomDiscount>
+      <RoomDiscount>
+        {room.discount ? formatCurrency(room.discount) : '--'}
+      </RoomDiscount>
       <div></div>
     </TableRow>
   );
