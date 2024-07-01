@@ -28,7 +28,7 @@ const RoomForm = () => {
       formData.append('description', data.description.toString());
     if (data.roomImage) formData.append('roomImage', data.roomImage);
 
-    createNewRoom(formData);
+    createNewRoom(formData, { onSuccess: () => form.reset() });
   };
 
   return (
