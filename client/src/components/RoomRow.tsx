@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Room } from '../types/room';
-import TableRow from './ui/table/TableRow';
+import TableRow from './ui/TableRow';
 
 interface Props {
   room: Room;
