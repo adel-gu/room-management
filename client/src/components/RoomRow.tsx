@@ -45,7 +45,10 @@ const formatCurrency = (val?: number) => {
 const RoomRow = ({ room }: Props) => {
   return (
     <TableRow>
-      <RoomImg src={room.image} alt={`Room image for ${room.name}`} />
+      <RoomImg
+        src={room.image ?? 'room.jpg'}
+        alt={`Room image for ${room.name}`}
+      />
       <RoomName>{room.name}</RoomName>
       <RoomCapacity>Fills up to {room.maxCapacity} guests</RoomCapacity>
       <RoomPrice>{formatCurrency(room.regularPrice)}</RoomPrice>
