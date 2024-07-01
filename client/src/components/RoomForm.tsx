@@ -10,7 +10,11 @@ import Textarea from './ui/Textarea';
 import PhotoInput from './ui/PhotoInput';
 import { useCreateNewRoom } from '../hooks/room';
 
-const RoomForm = () => {
+interface Props {
+  handleClose?: () => void;
+}
+
+const RoomForm = ({ handleClose }: Props) => {
   const form = useForm<RoomFormData>({
     resolver: zodResolver(formSchema),
   });
@@ -93,7 +97,7 @@ const RoomForm = () => {
         </FormRow>
 
         <FormRow>
-          <Button variation="secondary" type="reset">
+          <Button variation="secondary" type="reset" onClick={handleClose}>
             Cancel
           </Button>
           <Button type="submit" disabled={isCreatingRoomPending}>
