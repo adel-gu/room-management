@@ -1,13 +1,18 @@
-import { useState } from 'react';
 import RoomForm from './RoomForm';
 import Button from './ui/Button';
+import Modal from './Modal';
 
 const AddRoom = () => {
-  const [isOpen, setIsOpen] = useState(true);
   return (
     <div>
-      <Button onClick={() => setIsOpen(true)}>Add new room</Button>
-      <div>{isOpen && <RoomForm />}</div>
+      <Modal>
+        <Modal.Trigger>
+          <Button>Add new room</Button>
+        </Modal.Trigger>
+        <Modal.Content>
+          <RoomForm />
+        </Modal.Content>
+      </Modal>
     </div>
   );
 };
