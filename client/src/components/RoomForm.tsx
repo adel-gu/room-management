@@ -9,6 +9,7 @@ import Input from './ui/Input';
 import Textarea from './ui/Textarea';
 import PhotoInput from './ui/PhotoInput';
 import { useCreateNewRoom } from '../hooks/room';
+import Spinner from './Spinner';
 
 interface Props {
   handleClose?: () => void;
@@ -32,7 +33,12 @@ const RoomForm = ({ handleClose }: Props) => {
       formData.append('description', data.description.toString());
     if (data.roomImage) formData.append('roomImage', data.roomImage);
 
-    createNewRoom(formData, { onSuccess: () => form.reset() });
+    createNewRoom(formData, {
+      onSuccess: () => {
+        form.reset();
+        handleClose?.();
+      },
+    });
   };
 
   return (
@@ -101,7 +107,11 @@ const RoomForm = ({ handleClose }: Props) => {
             Cancel
           </Button>
           <Button type="submit" disabled={isCreatingRoomPending}>
-            Create Room
+            {isCreatingRoomPending ? (
+              <Spinner size={20} color="#f9fafb" />
+            ) : (
+              'Create Room'
+            )}
           </Button>
         </FormRow>
       </Form>
