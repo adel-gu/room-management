@@ -8,7 +8,7 @@ const createDoc = (model: string) => async (req: Request, res: Response) => {
     const Model = mongoose.model(model);
     const doc = new Model(req.body);
 
-    if (model === ModelsEnum.Room) {
+    if (model === ModelsEnum.Room && req.file) {
       // Upload room image file
       const file = req.file as Express.Multer.File;
       const base64Image = Buffer.from(file.buffer).toString('base64');
