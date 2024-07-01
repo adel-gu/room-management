@@ -1,8 +1,13 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formSchema, RoomFormData } from '../types/room';
+
 import Button from './ui/Button';
 import Form from './ui/Form';
+import FormRow from './FormRow';
+import Input from './ui/Input';
+import Textarea from './ui/Textarea';
+import PhotoInput from './ui/PhotoInput';
 
 const RoomForm = () => {
   const form = useForm<RoomFormData>({
@@ -16,55 +21,41 @@ const RoomForm = () => {
   return (
     <FormProvider {...form}>
       <Form onSubmit={form.handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="name">Room name</label>
-          <input
-            id="name"
-            {...form.register('name', { required: 'this field is required' })}
-          />
-          <p>{form.formState.errors.name?.message}</p>
-        </div>
+        <FormRow id="name" label="Room name">
+          <Input type="text" id="name" {...form.register('name')} />
+        </FormRow>
 
-        <div>
-          <label htmlFor="maxCapacity">Maximum capacity</label>
-          <input
+        <FormRow id="maxCapacity" label="Maximum capacity">
+          <Input
             type="number"
             id="maxCapacity"
             {...form.register('maxCapacity')}
           />
-          <p>{form.formState.errors.maxCapacity?.message}</p>
-        </div>
+        </FormRow>
 
-        <div>
-          <label htmlFor="regularPrice">Regular price</label>
-          <input
+        <FormRow id="regularPrice" label="Regular price">
+          <Input
             type="number"
             id="regularPrice"
             {...form.register('regularPrice')}
           />
-          <p>{form.formState.errors.regularPrice?.message}</p>
-        </div>
+        </FormRow>
 
-        <div>
-          <label htmlFor="discount">Discount</label>
-          <input
+        <FormRow id="discount" label="Discount">
+          <Input
             type="number"
             id="discount"
             {...form.register('discount')}
             defaultValue={0}
           />
-          <p>{form.formState.errors.discount?.message}</p>
-        </div>
+        </FormRow>
 
-        <div>
-          <label htmlFor="description">Description</label>
-          <textarea id="description" {...form.register('description')} />
-          <p>{form.formState.errors.description?.message}</p>
-        </div>
+        <FormRow id="description" label="Description">
+          <Textarea id="description" {...form.register('description')} />
+        </FormRow>
 
-        <div>
-          <label htmlFor="roomImage">Room photo</label>
-          <input
+        <FormRow id="roomImage" label="Room photo">
+          <PhotoInput
             id="roomImage"
             type="file"
             accept=".jpg, .jpeg, .png"
@@ -73,15 +64,14 @@ const RoomForm = () => {
               form.setValue('roomImage', file);
             }}
           />
-          <p>{form.formState.errors.roomImage?.message}</p>
-        </div>
+        </FormRow>
 
-        <div>
+        <FormRow>
           <Button variation="secondary" type="reset">
             Cancel
           </Button>
           <Button type="submit">Create Room</Button>
-        </div>
+        </FormRow>
       </Form>
     </FormProvider>
   );
