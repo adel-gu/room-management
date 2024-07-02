@@ -3,6 +3,9 @@ import { Room } from '../types/room';
 import TableRow from './ui/TableRow';
 import DropdownMenu from './DropdownMenu';
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
+import Modal from './Modal';
+import DeleteAction from './CRUDActions/DeleteAction';
+import { useDeleteRoom } from '../hooks/room';
 
 interface Props {
   room: Room;
@@ -45,6 +48,7 @@ const formatCurrency = (val?: number) => {
 };
 
 const RoomRow = ({ room }: Props) => {
+  const { deleteRoom, isDeletingRoomPending } = useDeleteRoom();
   return (
     <TableRow>
       <RoomImg
@@ -57,36 +61,44 @@ const RoomRow = ({ room }: Props) => {
       <RoomDiscount>
         {room.discount ? formatCurrency(room.discount) : '--'}
       </RoomDiscount>
-      <DropdownMenu>
-        <DropdownMenu.Trigger>
-          <EllipsisVertical />
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Group>
-            <DropdownMenu.Item
-              icon={<Pencil />}
-              onClick={() => {}}
-              disabled={false}
-            >
-              edit
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              icon={<Copy />}
-              onClick={() => {}}
-              disabled={false}
-            >
-              duplicate
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
-              icon={<Trash2 />}
-              onClick={() => {}}
-              disabled={false}
-            >
-              delete
-            </DropdownMenu.Item>
-          </DropdownMenu.Group>
-        </DropdownMenu.Content>
-      </DropdownMenu>
+      <Modal>
+        <DropdownMenu>
+          <DropdownMenu.Trigger>
+            <EllipsisVertical />
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Group>
+              <Modal.Trigger name="edit">
+                <DropdownMenu.Item
+                  icon={<Pencil />}
+                  disabled={false}
+                  onClick={() => {}}
+                >
+                  edit
+                </DropdownMenu.Item>
+              </Modal.Trigger>
+              <DropdownMenu.Item icon={<Copy />} disabled={false}>
+                duplicate
+              </DropdownMenu.Item>
+              <Modal.Trigger name="delete">
+                <DropdownMenu.Item icon={<Trash2 />} disabled={false}>
+                  delete
+                </DropdownMenu.Item>
+              </Modal.Trigger>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu>
+        <Modal.Content name="edit">
+          <div>edit</div>
+        </Modal.Content>
+        <Modal.Content name="delete">
+          <DeleteAction
+            resourceName="Room"
+            handleDeleteAction={() => deleteRoom(room._id)}
+            disabled={isDeletingRoomPending}
+          />
+        </Modal.Content>
+      </Modal>
     </TableRow>
   );
 };
