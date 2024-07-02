@@ -19,6 +19,7 @@ interface ModalProps extends HtmlHTMLAttributes<HTMLDivElement> {}
 
 interface ModalTriggerProps extends HtmlHTMLAttributes<HTMLDivElement> {
   children: ReactElement;
+  name: string;
 }
 
 interface ModalContentProps extends ModalTriggerProps {}
@@ -29,16 +30,12 @@ interface ModalContentProps extends ModalTriggerProps {}
 /*                                Modal Context                               */
 /* -------------------------------------------------------------------------- */
 type ModalContextType = {
-  isOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
+  modalName?: string;
+  openModal?: (name: string) => void;
+  closeModal?: () => void;
 };
 
-const ModalContext = createContext<ModalContextType>({
-  isOpen: false,
-  openModal: () => {},
-  closeModal: () => {},
-});
+export const ModalContext = createContext<ModalContextType>({});
 /* -------------------------- End of Modal Context -------------------------- */
 
 /* -------------------------------------------------------------------------- */
@@ -92,12 +89,14 @@ const CloseBtn = styled.button`
 /* --------------------- End of Modal Styled Components --------------------- */
 
 const Modal: FC<ModalProps> = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const [modalName, setModalName] = useState('');
+  const openModal = (name: string) => {
+    setModalName(name);
+  };
+  const closeModal = () => setModalName('');
 
   const value = {
-    isOpen,
+    modalName,
     openModal,
     closeModal,
   };
@@ -106,17 +105,17 @@ const Modal: FC<ModalProps> = ({ children }) => {
   );
 };
 
-const ModalTrigger: FC<ModalTriggerProps> = ({ children }) => {
+const ModalTrigger: FC<ModalTriggerProps> = ({ children, name }) => {
   const { openModal } = useContext(ModalContext);
 
-  return cloneElement(children, { onClick: () => openModal() });
+  return cloneElement(children, { onClick: () => openModal?.(name) });
 };
 
-const ModalContent: FC<ModalContentProps> = ({ children }) => {
-  const { isOpen, closeModal } = useContext(ModalContext);
-  const ref = useClickOut(closeModal);
+const ModalContent: FC<ModalContentProps> = ({ children, name }) => {
+  const { modalName, closeModal } = useContext(ModalContext);
+  const ref = useClickOut(() => closeModal?.());
 
-  if (!isOpen) return;
+  if (!modalName || name !== modalName) return;
 
   return createPortal(
     <Overlay>
@@ -124,7 +123,7 @@ const ModalContent: FC<ModalContentProps> = ({ children }) => {
         <CloseBtn onClick={closeModal}>
           <X />
         </CloseBtn>
-        <div>{cloneElement(children, { handleClose: closeModal })}</div>
+        <div>{cloneElement(children, { handleclose: closeModal })}</div>
       </StyledModal>
     </Overlay>,
     document.body,
