@@ -22,7 +22,7 @@ interface DropDownGroupProps extends HtmlHTMLAttributes<HTMLUListElement> {}
 
 interface DropDownItemProps extends HtmlHTMLAttributes<HTMLLIElement> {
   icon: ReactElement;
-  onClick: () => void;
+  onClick?: () => void;
   disabled: boolean;
 }
 /* ------------------------------ End of Props ------------------------------ */
@@ -163,7 +163,7 @@ const DropDownMenuItem: FC<DropDownItemProps> = ({
     <li>
       <StyledDropDownMenuItem
         onClick={() => {
-          onClick();
+          onClick?.();
           closeDropDown?.();
         }}
         disabled={disabled}
