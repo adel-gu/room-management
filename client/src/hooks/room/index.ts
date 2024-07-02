@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createNewRoomRequest, readAllRoomsRequest } from '../../api/room';
+import {
+  createNewRoomRequest,
+  deleteRoomRequest,
+  readAllRoomsRequest,
+} from '../../api/room';
 import toast from 'react-hot-toast';
 
 export const useReadAllRooms = () => {
@@ -36,4 +40,21 @@ export const useCreateNewRoom = () => {
     });
 
   return { createNewRoom, isCreatingRoomPending };
+};
+
+export const useDeleteRoom = () => {
+  const queryClient = useQueryClient();
+  const { mutate: deleteRoom, isPending: isDeletingRoomPending } = useMutation({
+    mutationKey: ['deleteRoom'],
+    mutationFn: deleteRoomRequest,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['readAllRooms'] });
+      toast.success('Room deleted successfully');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  return { deleteRoom, isDeletingRoomPending };
 };
