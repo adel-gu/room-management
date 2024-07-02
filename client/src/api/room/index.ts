@@ -23,7 +23,9 @@ export const createNewRoomRequest = async (room: FormData) => {
 };
 
 export const deleteRoomRequest = async (roomId: string) => {
-  const res = await fetch(`${API_BASE_URL}/${roomId}`);
+  const res = await fetch(`${API_BASE_URL}/${roomId}`, {
+    method: 'DELETE',
+  });
 
   if (!res.ok) throw new Error('Failed to delete room');
 
