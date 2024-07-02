@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Room } from '../types/room';
 import TableRow from './ui/TableRow';
+import DropdownMenu from './DropdownMenu';
+import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 
 interface Props {
   room: Room;
@@ -55,7 +57,36 @@ const RoomRow = ({ room }: Props) => {
       <RoomDiscount>
         {room.discount ? formatCurrency(room.discount) : '--'}
       </RoomDiscount>
-      <div></div>
+      <DropdownMenu>
+        <DropdownMenu.Trigger>
+          <EllipsisVertical />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Group>
+            <DropdownMenu.Item
+              icon={<Pencil />}
+              onClick={() => {}}
+              disabled={false}
+            >
+              edit
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              icon={<Copy />}
+              onClick={() => {}}
+              disabled={false}
+            >
+              duplicate
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              icon={<Trash2 />}
+              onClick={() => {}}
+              disabled={false}
+            >
+              delete
+            </DropdownMenu.Item>
+          </DropdownMenu.Group>
+        </DropdownMenu.Content>
+      </DropdownMenu>
     </TableRow>
   );
 };
