@@ -12,10 +12,10 @@ import { useCreateNewRoom } from '../hooks/room';
 import Spinner from './Spinner';
 
 interface Props {
-  handleClose?: () => void;
+  handleclose?: () => void;
 }
 
-const RoomForm = ({ handleClose }: Props) => {
+const RoomForm = ({ handleclose }: Props) => {
   const form = useForm<RoomFormData>({
     resolver: zodResolver(formSchema),
   });
@@ -36,7 +36,7 @@ const RoomForm = ({ handleClose }: Props) => {
     createNewRoom(formData, {
       onSuccess: () => {
         form.reset();
-        handleClose?.();
+        handleclose?.();
       },
     });
   };
@@ -103,7 +103,7 @@ const RoomForm = ({ handleClose }: Props) => {
         </FormRow>
 
         <FormRow>
-          <Button variation="secondary" type="reset" onClick={handleClose}>
+          <Button variation="secondary" type="reset" onClick={handleclose}>
             Cancel
           </Button>
           <Button type="submit" disabled={isCreatingRoomPending}>
