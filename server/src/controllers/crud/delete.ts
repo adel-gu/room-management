@@ -12,7 +12,7 @@ const deleteDoc = (model: string) => async (req: Request, res: Response) => {
         message: 'Document with that ID is not found',
       });
 
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
       data: {},
     });
