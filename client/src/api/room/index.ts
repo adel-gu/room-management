@@ -21,3 +21,12 @@ export const createNewRoomRequest = async (room: FormData) => {
   const { data } = await res.json();
   return data;
 };
+
+export const deleteRoomRequest = async (roomId: string) => {
+  const res = await fetch(`${API_BASE_URL}/${roomId}`);
+
+  if (!res.ok) throw new Error('Failed to delete room');
+
+  const { data } = await res.json();
+  return data;
+};
