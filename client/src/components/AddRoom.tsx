@@ -6,10 +6,10 @@ const AddRoom = () => {
   return (
     <div>
       <Modal>
-        <Modal.Trigger>
+        <Modal.Trigger name="add-room">
           <Button>Add new room</Button>
         </Modal.Trigger>
-        <Modal.Content>
+        <Modal.Content name="add-room">
           <RoomForm />
         </Modal.Content>
       </Modal>
