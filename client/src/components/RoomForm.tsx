@@ -108,7 +108,7 @@ const RoomForm = ({ handleClose }: Props) => {
           </Button>
           <Button type="submit" disabled={isCreatingRoomPending}>
             {isCreatingRoomPending ? (
-              <Spinner size={20} color="#f9fafb" />
+              <Spinner size="sm" color="secondary" />
             ) : (
               'Create Room'
             )}
