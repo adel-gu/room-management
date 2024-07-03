@@ -3,6 +3,8 @@ import { useReadAllRooms } from '../hooks/room';
 
 import RoomRow from './RoomRow';
 import Spinner from './Spinner';
+import { useSearchParams } from 'react-router-dom';
+import { defineRoomFilterQuery } from '../utils/defineFilters';
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -32,7 +34,17 @@ const TableBody = styled.div`
 `;
 
 const RoomsTable = () => {
-  const { rooms, isRoomsLoading } = useReadAllRooms();
+  const [filterParams] = useSearchParams();
+
+  const query = defineRoomFilterQuery(
+    filterParams.get('discount'),
+    filterParams.get('page'),
+  );
+
+  const {
+    data: { data: rooms, currentPage, pageSize, totalDocs, totalPages } = {},
+    isRoomsLoading,
+  } = useReadAllRooms(query);
 
   if (isRoomsLoading) return <Spinner />;
 
