@@ -3,7 +3,7 @@ import { z } from 'zod';
 const MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5mb
 const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/jpg', 'image/jpeg'];
 
-export interface Room {
+export interface IRoom {
   _id: string;
   name: string;
   maxCapacity: number;
@@ -70,3 +70,8 @@ export const formSchema = z
   });
 
 export type RoomFormData = z.infer<typeof formSchema>;
+
+export type EditReqType = {
+  roomId: string;
+  editedData: FormData;
+};
