@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import { Room } from '../types/room';
+import { IRoom } from '../types/room';
 import TableRow from './ui/TableRow';
 import DropdownMenu from './DropdownMenu';
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 import Modal from './Modal';
 import DeleteAction from './CRUDActions/DeleteAction';
 import { useDeleteRoom } from '../hooks/room';
+import RoomForm from './RoomForm';
 
 interface Props {
-  room: Room;
+  room: IRoom;
 }
 
 const RoomImg = styled.img`
@@ -59,7 +60,7 @@ const RoomRow = ({ room }: Props) => {
       <RoomCapacity>Fills up to {room.maxCapacity} guests</RoomCapacity>
       <RoomPrice>{formatCurrency(room.regularPrice)}</RoomPrice>
       <RoomDiscount>
-        {room.discount ? formatCurrency(room.discount) : '--'}
+        {room.discount === 0 ? '--' : formatCurrency(room.discount)}
       </RoomDiscount>
       <Modal>
         <DropdownMenu>
@@ -89,7 +90,7 @@ const RoomRow = ({ room }: Props) => {
           </DropdownMenu.Content>
         </DropdownMenu>
         <Modal.Content name="edit">
-          <div>edit</div>
+          <RoomForm room={room} />
         </Modal.Content>
         <Modal.Content name="delete">
           <DeleteAction
