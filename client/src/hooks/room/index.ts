@@ -7,20 +7,20 @@ import {
 } from '../../api/room';
 import toast from 'react-hot-toast';
 
-export const useReadAllRooms = () => {
+export const useReadAllRooms = (query: string) => {
   const {
-    data: rooms,
+    data,
     isLoading: isRoomsLoading,
     error,
   } = useQuery({
-    queryKey: ['readAllRooms'],
-    queryFn: readAllRoomsRequest,
+    queryKey: ['readAllRooms', query],
+    queryFn: () => readAllRoomsRequest(query),
   });
 
   if (error) toast.error(error.message);
 
   return {
-    rooms,
+    data,
     isRoomsLoading,
   };
 };

@@ -1,9 +1,11 @@
-import { EditReqType, IRoom } from '../../types/room';
+import { EditReqType, GetAllRoomsResType } from '../../types/room';
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/rooms`;
 
-export const readAllRoomsRequest = async (): Promise<IRoom[]> => {
-  const res = await fetch(API_BASE_URL);
+export const readAllRoomsRequest = async (
+  query: string,
+): Promise<GetAllRoomsResType> => {
+  const res = await fetch(`${API_BASE_URL}${query}`);
   if (!res.ok) throw new Error('Error Fetching rooms!');
   const { data } = await res.json();
 
