@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formSchema, RoomFormData } from '../types/room';
+import { formSchema, IRoom, RoomFormData } from '../types/room';
 
 import Button from './ui/Button';
 import Form from './ui/Form';
@@ -8,18 +8,24 @@ import FormRow from './FormRow';
 import Input from './ui/Input';
 import Textarea from './ui/Textarea';
 import PhotoInput from './ui/PhotoInput';
-import { useCreateNewRoom } from '../hooks/room';
+import { useCreateNewRoom, useEditRoom } from '../hooks/room';
 import Spinner from './Spinner';
 
 interface Props {
   handleclose?: () => void;
+  room?: IRoom;
 }
 
-const RoomForm = ({ handleclose }: Props) => {
+const RoomForm = ({ handleclose, room }: Props) => {
   const form = useForm<RoomFormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: room,
   });
   const { createNewRoom, isCreatingRoomPending } = useCreateNewRoom();
+  const { editRoom, isEditingRoomPending } = useEditRoom();
+
+  const isEditing = !!room;
+  const disabledBtn = isCreatingRoomPending || isEditingRoomPending;
 
   const onSubmit = (data: RoomFormData) => {
     const formData = new FormData();
@@ -28,17 +34,27 @@ const RoomForm = ({ handleclose }: Props) => {
     formData.append('maxCapacity', data.maxCapacity.toString());
     formData.append('regularPrice', data.regularPrice.toString());
 
-    if (data.discount) formData.append('discount', data.discount.toString());
+    if (data.discount !== null && data.discount !== undefined)
+      formData.append('discount', data.discount.toString());
     if (data.description)
       formData.append('description', data.description.toString());
     if (data.roomImage) formData.append('roomImage', data.roomImage);
 
-    createNewRoom(formData, {
-      onSuccess: () => {
-        form.reset();
-        handleclose?.();
-      },
-    });
+    if (isEditing) {
+      editRoom(
+        { roomId: room._id, editedData: formData },
+        {
+          onSuccess: () => handleclose?.(),
+        },
+      );
+    } else {
+      createNewRoom(formData, {
+        onSuccess: () => {
+          form.reset();
+          handleclose?.();
+        },
+      });
+    }
   };
 
   return (
@@ -103,14 +119,21 @@ const RoomForm = ({ handleclose }: Props) => {
         </FormRow>
 
         <FormRow>
-          <Button variation="secondary" type="reset" onClick={handleclose}>
+          <Button
+            variation="secondary"
+            type="reset"
+            onClick={handleclose}
+            disabled={disabledBtn}
+          >
             Cancel
           </Button>
-          <Button type="submit" disabled={isCreatingRoomPending}>
-            {isCreatingRoomPending ? (
+          <Button type="submit" disabled={disabledBtn}>
+            {disabledBtn ? (
               <Spinner size="sm" color="secondary" />
+            ) : isEditing ? (
+              'Edit'
             ) : (
-              'Create Room'
+              'Create'
             )}
           </Button>
         </FormRow>
