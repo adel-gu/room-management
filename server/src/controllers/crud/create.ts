@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import cloudinary from 'cloudinary';
 import { ModelsEnum } from '../../utils/constants';
+import uploadImg from '../../utils/uploadImage';
 
 const createDoc = (model: string) => async (req: Request, res: Response) => {
   try {
@@ -9,13 +9,7 @@ const createDoc = (model: string) => async (req: Request, res: Response) => {
     const doc = new Model(req.body);
 
     if (model === ModelsEnum.Room && req.file) {
-      // Upload room image file
-      const file = req.file as Express.Multer.File;
-      const base64Image = Buffer.from(file.buffer).toString('base64');
-      const dataUrl = `data:${file.mimetype};base64,${base64Image}`;
-
-      const uploadResponse = await cloudinary.v2.uploader.upload(dataUrl);
-      doc.image = uploadResponse.url;
+      doc.image = await uploadImg(req.file);
     }
 
     await doc.save();
