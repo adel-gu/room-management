@@ -21,7 +21,7 @@ router
 router
   .route('/rooms/:id')
   .get(roomController.read)
-  .patch(roomController.update)
+  .patch(upload.single('roomImage'), roomController.update)
   .delete(roomController.delete);
 
 export default router;
