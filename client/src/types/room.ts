@@ -75,3 +75,11 @@ export type EditReqType = {
   roomId: string;
   editedData: FormData;
 };
+
+export type GetAllRoomsResType = {
+  currentPage: number;
+  totalPages: number;
+  totalDocs: number;
+  pageSize: number;
+  data: IRoom[];
+};
