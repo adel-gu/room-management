@@ -32,10 +32,7 @@ const Rooms = () => {
       </Wrapper>
       <Wrapper>
         <RoomsTable />
-        <Wrapper direction="hr">
-          <AddRoom />
-          <div>Pagination</div>
-        </Wrapper>
+        <AddRoom />
       </Wrapper>
     </>
   );
