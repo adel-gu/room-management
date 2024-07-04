@@ -34,12 +34,13 @@ const TableBody = styled.div`
 `;
 
 const RoomsTable = () => {
-  const [filterParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const query = defineRoomFilterQuery(
     'discount',
-    filterParams.get('discount'),
-    filterParams.get('page'),
+    searchParams.get('discount'),
+    searchParams.get('page'),
+    searchParams.get('sort'),
   );
 
   const {
