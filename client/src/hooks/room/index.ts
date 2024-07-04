@@ -6,10 +6,22 @@ import {
   readAllRoomsRequest,
 } from '../../api/room';
 import toast from 'react-hot-toast';
+import { useSearchParams } from 'react-router-dom';
+import { defineRoomFilterQuery } from '../../utils/defineFilters';
 
-export const useReadAllRooms = (query: string) => {
+export const useReadAllRooms = () => {
+  const [searchParams] = useSearchParams();
+  const queryClient = useQueryClient();
+
+  const query = defineRoomFilterQuery(
+    'discount',
+    searchParams.get('discount'),
+    searchParams.get('page'),
+    searchParams.get('sort'),
+  );
+
   const {
-    data,
+    data: { data: rooms, page, pages, total } = {},
     isLoading: isRoomsLoading,
     error,
   } = useQuery({
@@ -19,8 +31,38 @@ export const useReadAllRooms = (query: string) => {
 
   if (error) toast.error(error.message);
 
+  // pre-fetching
+  if (!!(page && pages) && page < pages) {
+    const newQuery = defineRoomFilterQuery(
+      'discount',
+      searchParams.get('discount'),
+      `${page + 1}`,
+      searchParams.get('sort'),
+    );
+    queryClient.prefetchQuery({
+      queryKey: ['readAllRooms'],
+      queryFn: () => readAllRoomsRequest(newQuery),
+    });
+  }
+
+  if (!!(page && pages) && page > 1) {
+    const newQuery = defineRoomFilterQuery(
+      'discount',
+      searchParams.get('discount'),
+      `${page - 1}`,
+      searchParams.get('sort'),
+    );
+    queryClient.prefetchQuery({
+      queryKey: ['readAllRooms'],
+      queryFn: () => readAllRoomsRequest(newQuery),
+    });
+  }
+
   return {
-    data,
+    rooms,
+    page,
+    pages,
+    total,
     isRoomsLoading,
   };
 };
