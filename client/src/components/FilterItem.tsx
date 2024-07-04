@@ -36,13 +36,13 @@ const StyledFilterItem = styled.button<StyledProps>`
 `;
 
 const FilterItem = ({ item, field }: Props) => {
-  const [filterParams, setFilterParams] = useSearchParams();
-  const currentFilter = filterParams.get('discount') || 'all';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get('discount') || 'all';
 
   const handleClick = () => {
-    filterParams.set(field, `${item.value}`);
+    searchParams.set(field, `${item.value}`);
 
-    setFilterParams(filterParams);
+    setSearchParams(searchParams);
   };
   return (
     <StyledFilterItem
