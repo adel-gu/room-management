@@ -8,20 +8,21 @@ const readAllDoc = (model: string) => async (req: Request, res: Response) => {
     const Model = mongoose.model(model);
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
 
-    let query = new QueryHelper(Model.find(), req.query)
-      .filter()
-      .sort()
-      .paginate(page);
+    let query = new QueryHelper(Model.find(), req.query).filter();
 
+    const total = await query.getQuery().clone().countDocuments();
+    const pages = Math.ceil(total / LIMIT);
+
+    const currentPage = page > pages ? pages : page;
+
+    query = query.sort().paginate(currentPage);
     const docs = await query.getQuery();
-    const totalDocs = await Model.countDocuments();
-    const totalPages = Math.ceil(totalDocs / LIMIT);
 
     const pagination = {
-      currentPage: page,
-      totalPages,
-      totalDocs,
+      page: currentPage,
+      pages,
       pageSize: LIMIT,
+      total,
       data: docs,
     };
 

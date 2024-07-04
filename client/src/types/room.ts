@@ -78,9 +78,9 @@ export type EditReqType = {
 };
 
 export type GetAllRoomsResType = {
-  currentPage: number;
-  totalPages: number;
-  totalDocs: number;
+  page: number;
+  pages: number;
   pageSize: number;
+  total: number;
   data: IRoom[];
 };

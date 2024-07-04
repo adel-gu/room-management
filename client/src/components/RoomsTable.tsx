@@ -42,7 +42,7 @@ const RoomsTable = () => {
   );
 
   const {
-    data: { data: rooms, currentPage, pageSize, totalDocs, totalPages } = {},
+    data: { data: rooms, page, pages, pageSize, total } = {},
     isRoomsLoading,
   } = useReadAllRooms(query);
 
