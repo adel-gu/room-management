@@ -12,6 +12,7 @@ export interface IRoom {
   description?: string;
   image?: string;
   createdAt?: Date;
+  [key: string]: any;
 }
 
 export const formSchema = z
