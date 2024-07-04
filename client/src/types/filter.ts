@@ -7,3 +7,5 @@ export type FilterObjType = {
   field: string;
   options: Option[];
 };
+
+export type SortByObjType = Option[];
