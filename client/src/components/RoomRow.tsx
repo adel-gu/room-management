@@ -5,7 +5,7 @@ import DropdownMenu from './DropdownMenu';
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 import Modal from './Modal';
 import DeleteAction from './CRUDActions/DeleteAction';
-import { useDeleteRoom } from '../hooks/room';
+import { useCreateNewRoom, useDeleteRoom } from '../hooks/room';
 import RoomForm from './RoomForm';
 
 interface Props {
@@ -50,6 +50,21 @@ const formatCurrency = (val?: number) => {
 
 const RoomRow = ({ room }: Props) => {
   const { deleteRoom, isDeletingRoomPending } = useDeleteRoom();
+  const {
+    createNewRoom: duplicateRoom,
+    isCreatingRoomPending: isDuplicatingPending,
+  } = useCreateNewRoom();
+
+  const handleDuplicate = () => {
+    const { _id, createdAt, ...rest } = room;
+    const roomFormData = new FormData();
+    for (var key in rest) {
+      if (key === 'name') roomFormData.append(key, `Copy of - ${rest.name}`);
+      else roomFormData.append(key, rest[key]);
+    }
+    duplicateRoom(roomFormData);
+  };
+
   return (
     <TableRow>
       <RoomImg
@@ -72,17 +87,23 @@ const RoomRow = ({ room }: Props) => {
               <Modal.Trigger name="edit">
                 <DropdownMenu.Item
                   icon={<Pencil />}
-                  disabled={false}
-                  onClick={() => {}}
+                  disabled={isDuplicatingPending}
                 >
                   edit
                 </DropdownMenu.Item>
               </Modal.Trigger>
-              <DropdownMenu.Item icon={<Copy />} disabled={false}>
+              <DropdownMenu.Item
+                icon={<Copy />}
+                disabled={isDuplicatingPending}
+                onClick={handleDuplicate}
+              >
                 duplicate
               </DropdownMenu.Item>
               <Modal.Trigger name="delete">
-                <DropdownMenu.Item icon={<Trash2 />} disabled={false}>
+                <DropdownMenu.Item
+                  icon={<Trash2 />}
+                  disabled={isDuplicatingPending}
+                >
                   delete
                 </DropdownMenu.Item>
               </Modal.Trigger>
