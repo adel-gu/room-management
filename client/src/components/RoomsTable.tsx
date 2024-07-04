@@ -5,6 +5,7 @@ import RoomRow from './RoomRow';
 import Spinner from './Spinner';
 import { useSearchParams } from 'react-router-dom';
 import { defineRoomFilterQuery } from '../utils/defineFilters';
+import Pagination from './Pagination';
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -29,8 +30,19 @@ const TableHeader = styled.div`
   color: var(--color-grey-600);
 `;
 
-const TableBody = styled.div`
+const TableBody = styled.section`
   margin: 0.4rem 0;
+`;
+
+const TableFooter = styled.footer`
+  background-color: var(--color-grey-50);
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem;
+
+  &:not(:has(*)) {
+    display: none;
+  }
 `;
 
 const RoomsTable = () => {
@@ -43,10 +55,8 @@ const RoomsTable = () => {
     searchParams.get('sort'),
   );
 
-  const {
-    data: { data: rooms, page, pages, pageSize, total } = {},
-    isRoomsLoading,
-  } = useReadAllRooms(query);
+  const { data: { data: rooms, page, pages, total } = {}, isRoomsLoading } =
+    useReadAllRooms(query);
 
   if (isRoomsLoading) return <Spinner />;
 
@@ -65,6 +75,9 @@ const RoomsTable = () => {
           <RoomRow key={room._id} room={room} />
         ))}
       </TableBody>
+      <TableFooter>
+        <Pagination pages={pages} page={page} total={total} />
+      </TableFooter>
     </Table>
   );
 };
