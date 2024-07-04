@@ -13,7 +13,7 @@ interface Props {
 const StyledQueryOperations = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.6;
+  gap: 1.6rem;
 `;
 
 const QueryOperations = ({ filterObj, sortByObj }: Props) => {

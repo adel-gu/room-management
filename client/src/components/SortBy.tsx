@@ -14,7 +14,7 @@ const StyledSortBy = styled.select`
   font-weight: 500;
   box-shadow: var(--shadow-sm);
 
-  border: var(--color-grey-100);
+  border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-sm);
 `;
 
