@@ -37,6 +37,7 @@ const RoomsTable = () => {
   const [filterParams] = useSearchParams();
 
   const query = defineRoomFilterQuery(
+    'discount',
     filterParams.get('discount'),
     filterParams.get('page'),
   );

@@ -9,8 +9,8 @@ const filterObj: FilterObjType = {
   field: 'discount',
   options: [
     { value: 'all', label: 'All' },
-    { value: 'no-discount', label: 'No discount' },
-    { value: 'with-discount', label: 'With discount' },
+    { value: '=0', label: 'No discount' },
+    { value: '[gt]=0', label: 'With discount' },
   ],
 };
 
