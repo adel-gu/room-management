@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Button from '../ui/Button';
-import Heading from '../ui/Heading';
-import Spinner from '../Spinner';
+import Button from './ui/Button';
+import Heading from './ui/Heading';
+import Spinner from './Spinner';
 
 interface Props {
   resourceName: string;
