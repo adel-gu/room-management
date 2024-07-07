@@ -78,6 +78,8 @@ const Pagination = ({ pages = 1, page = 1, total = 0 }: Props) => {
     setSearchParams(searchParams);
   };
 
+  if (pages <= 1) return null;
+
   return (
     <StyledPagination>
       <P>
