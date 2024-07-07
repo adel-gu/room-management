@@ -8,7 +8,7 @@ import FormRow from '../FormRow';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Spinner from '../Spinner';
-import { useCreateNewGuest } from '../../hooks/guests';
+import { useCreateNewGuest, useEditGuest } from '../../hooks/guests';
 
 interface Props {
   handleclose?: () => void;
@@ -21,14 +21,25 @@ const GuestForm = ({ handleclose, guest }: Props) => {
     defaultValues: guest,
   });
   const { createNewGuest, isCreatingGuestPending } = useCreateNewGuest();
+  const { editGuest, isEditingGuestPending } = useEditGuest();
+
+  const isEditing = !!guest;
+  const disabledBtn = isCreatingGuestPending || isEditingGuestPending;
 
   const onSubmit = (data: GuestFormData) => {
-    createNewGuest(data, {
-      onSuccess: () => {
-        form.reset();
-        handleclose?.();
-      },
-    });
+    if (isEditing) {
+      editGuest(
+        { guestId: guest._id, editedData: data },
+        { onSuccess: () => handleclose?.() },
+      );
+    } else {
+      createNewGuest(data, {
+        onSuccess: () => {
+          form.reset();
+          handleclose?.();
+        },
+      });
+    }
   };
 
   return (
@@ -84,14 +95,14 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             variation="secondary"
             type="reset"
             onClick={handleclose}
-            disabled={isCreatingGuestPending}
+            disabled={disabledBtn}
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={isCreatingGuestPending}>
-            {isCreatingGuestPending ? (
+          <Button type="submit" disabled={disabledBtn}>
+            {disabledBtn ? (
               <Spinner size="sm" color="secondary" />
-            ) : false ? (
+            ) : isEditing ? (
               'Edit'
             ) : (
               'Create'
