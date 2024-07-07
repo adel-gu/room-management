@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { IRoom } from '../types/room';
-import TableRow from './ui/TableRow';
-import DropdownMenu from './DropdownMenu';
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
-import Modal from './Modal';
-import DeleteAction from './CRUDActions/DeleteAction';
+
 import { useCreateNewRoom, useDeleteRoom } from '../hooks/room';
+import { IRoom } from '../types/room';
+
+import DropdownMenu from './DropdownMenu';
+import Modal from './Modal';
+import DeleteAction from './DeleteAction';
 import RoomForm from './RoomForm';
 
 interface Props {
@@ -18,7 +19,7 @@ const RoomImg = styled.img`
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.5) translateX(-7px);
+  transform: scale(1.5) translateX(-5px);
 `;
 
 const RoomName = styled.div`
@@ -66,7 +67,7 @@ const RoomRow = ({ room }: Props) => {
   };
 
   return (
-    <TableRow>
+    <>
       <RoomImg
         src={room.image ?? 'room.jpg'}
         alt={`Room image for ${room.name}`}
@@ -121,7 +122,7 @@ const RoomRow = ({ room }: Props) => {
           />
         </Modal.Content>
       </Modal>
-    </TableRow>
+    </>
   );
 };
 export default RoomRow;
