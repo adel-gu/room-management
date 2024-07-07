@@ -1,6 +1,6 @@
-import AddRoom from '../components/AddRoom';
+import AddRoom from '../components/rooms/AddRoom';
 import QueryOperations from '../components/QueryOperations';
-import RoomsTable from '../components/RoomsTable';
+import RoomsTable from '../components/rooms/RoomsTable';
 import Heading from '../components/ui/Heading';
 import Wrapper from '../components/ui/Wrapper';
 import { FilterObjType, SortByObjType } from '../types/filter';

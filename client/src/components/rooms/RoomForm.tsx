@@ -1,15 +1,15 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formSchema, IRoom, RoomFormData } from '../types/room';
+import { formSchema, IRoom, RoomFormData } from '../../types/room';
 
-import Button from './ui/Button';
-import Form from './ui/Form';
-import FormRow from './FormRow';
-import Input from './ui/Input';
-import Textarea from './ui/Textarea';
-import PhotoInput from './ui/PhotoInput';
-import { useCreateNewRoom, useEditRoom } from '../hooks/room';
-import Spinner from './Spinner';
+import Button from '../ui/Button';
+import Form from '../ui/Form';
+import FormRow from '../FormRow';
+import Input from '../ui/Input';
+import Textarea from '../ui/Textarea';
+import PhotoInput from '../ui/PhotoInput';
+import { useCreateNewRoom, useEditRoom } from '../../hooks/room';
+import Spinner from '../Spinner';
 
 interface Props {
   handleclose?: () => void;

@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 
-import { useCreateNewRoom, useDeleteRoom } from '../hooks/room';
-import { IRoom } from '../types/room';
+import { useCreateNewRoom, useDeleteRoom } from '../../hooks/room';
+import { IRoom } from '../../types/room';
 
-import DropdownMenu from './DropdownMenu';
-import Modal from './Modal';
-import DeleteAction from './DeleteAction';
+import DropdownMenu from '../DropdownMenu';
+import Modal from '../Modal';
+import DeleteAction from '../DeleteAction';
 import RoomForm from './RoomForm';
 
 interface Props {

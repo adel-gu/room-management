@@ -1,9 +1,9 @@
-import { useReadAllRooms } from '../hooks/room';
+import { useReadAllRooms } from '../../hooks/room';
 
 import RoomRow from './RoomRow';
-import Spinner from './Spinner';
-import Pagination from './Pagination';
-import Table from './Table';
+import Spinner from '../Spinner';
+import Pagination from '../Pagination';
+import Table from '../Table';
 
 const RoomsTable = () => {
   const { rooms, page, pages, total, isRoomsLoading } = useReadAllRooms();
