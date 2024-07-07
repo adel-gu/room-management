@@ -11,7 +11,7 @@ const readAllDoc = (model: string) => async (req: Request, res: Response) => {
     let query = new QueryHelper(Model.find(), req.query).filter();
 
     const total = await query.getQuery().clone().countDocuments();
-    const pages = Math.ceil(total / LIMIT);
+    const pages = Math.ceil(total / LIMIT) || 1;
 
     const currentPage = page > pages ? pages : page;
 
