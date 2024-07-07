@@ -1,4 +1,4 @@
-import { useReadAllRooms } from '../../hooks/room';
+import { useReadAllRooms } from '../../hooks/rooms';
 
 import RoomRow from './RoomRow';
 import Spinner from '../Spinner';
