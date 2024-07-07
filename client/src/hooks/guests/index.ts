@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import {
   createNewGuestRequest,
+  deleteGuestRequest,
   editGuestRequest,
   readAllGuestsRequest,
 } from '../../api/guests';
@@ -81,6 +82,24 @@ export const useCreateNewGuest = () => {
     });
 
   return { createNewGuest, isCreatingGuestPending };
+};
+
+export const useDeleteGuest = () => {
+  const queryClient = useQueryClient();
+  const { mutate: deleteGuest, isPending: isDeletingGuestPending } =
+    useMutation({
+      mutationKey: ['deleteGuest'],
+      mutationFn: deleteGuestRequest,
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['readAllGuests'] });
+        toast.success('Guest deleted successfully');
+      },
+      onError: (err) => {
+        toast.error(err.message);
+      },
+    });
+
+  return { deleteGuest, isDeletingGuestPending };
 };
 
 export const useEditGuest = () => {
