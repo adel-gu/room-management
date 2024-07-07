@@ -8,6 +8,7 @@ import FormRow from '../FormRow';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Spinner from '../Spinner';
+import { useCreateNewGuest } from '../../hooks/guests';
 
 interface Props {
   handleclose?: () => void;
@@ -19,9 +20,15 @@ const GuestForm = ({ handleclose, guest }: Props) => {
     resolver: zodResolver(formSchema),
     defaultValues: guest,
   });
+  const { createNewGuest, isCreatingGuestPending } = useCreateNewGuest();
 
   const onSubmit = (data: GuestFormData) => {
-    console.log('DATA: ', data);
+    createNewGuest(data, {
+      onSuccess: () => {
+        form.reset();
+        handleclose?.();
+      },
+    });
   };
 
   return (
@@ -32,7 +39,7 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             type="text"
             id="fullName"
             {...form.register('fullName')}
-            disabled={false}
+            disabled={isCreatingGuestPending}
           />
         </FormRow>
 
@@ -41,7 +48,7 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             type="text"
             id="phone"
             {...form.register('phone')}
-            disabled={false}
+            disabled={isCreatingGuestPending}
           />
         </FormRow>
 
@@ -50,7 +57,7 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             type="email"
             id="email"
             {...form.register('email')}
-            disabled={false}
+            disabled={isCreatingGuestPending}
           />
         </FormRow>
 
@@ -59,7 +66,7 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             type="text"
             id="nationality"
             {...form.register('nationality')}
-            disabled={false}
+            disabled={isCreatingGuestPending}
           />
         </FormRow>
 
@@ -68,7 +75,7 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             type="text"
             id="nationalID"
             {...form.register('nationalID')}
-            disabled={false}
+            disabled={isCreatingGuestPending}
           />
         </FormRow>
 
@@ -77,12 +84,12 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             variation="secondary"
             type="reset"
             onClick={handleclose}
-            disabled={false}
+            disabled={isCreatingGuestPending}
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={false}>
-            {false ? (
+          <Button type="submit" disabled={isCreatingGuestPending}>
+            {isCreatingGuestPending ? (
               <Spinner size="sm" color="secondary" />
             ) : false ? (
               'Edit'
