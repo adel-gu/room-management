@@ -28,3 +28,25 @@ export const createNewGuestRequest = async (
   const { data } = await res.json();
   return data;
 };
+
+export const editGuestRequest = async ({
+  guestId,
+  editedData,
+}: {
+  guestId: string;
+  editedData: GuestFormData;
+}) => {
+  const res = await fetch(`${API_BASE_URL}/${guestId}`, {
+    method: 'PATCH',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(editedData),
+  });
+
+  if (!res.ok) throw new Error('Failed to update guest');
+
+  const { data } = await res.json();
+
+  return data;
+};

@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { createNewGuestRequest, readAllGuestsRequest } from '../../api/guests';
+import {
+  createNewGuestRequest,
+  editGuestRequest,
+  readAllGuestsRequest,
+} from '../../api/guests';
 import toast from 'react-hot-toast';
 
 export const useReadAllGuests = () => {
@@ -77,4 +81,21 @@ export const useCreateNewGuest = () => {
     });
 
   return { createNewGuest, isCreatingGuestPending };
+};
+
+export const useEditGuest = () => {
+  const queryClient = useQueryClient();
+  const { mutate: editGuest, isPending: isEditingGuestPending } = useMutation({
+    mutationKey: ['editGuest'],
+    mutationFn: editGuestRequest,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['readAllGuests'] });
+      toast.success('Guest updated successfully');
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  return { editGuest, isEditingGuestPending };
 };

@@ -1,9 +1,11 @@
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 import { IGuest } from '../../types/guest';
+
 import DropdownMenu from '../DropdownMenu';
 import Modal from '../Modal';
 import DeleteAction from '../DeleteAction';
 import styled from 'styled-components';
+import GuestForm from './GuestForm';
 
 interface Props {
   guest: IGuest;
@@ -51,8 +53,7 @@ const GuestRow = ({ guest }: Props) => {
           </DropdownMenu.Content>
         </DropdownMenu>
         <Modal.Content name="edit">
-          <span>Form</span>
-          {/* <RoomForm room={room} /> */}
+          <GuestForm guest={guest} />
         </Modal.Content>
         <Modal.Content name="delete">
           <DeleteAction
