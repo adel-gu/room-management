@@ -29,6 +29,17 @@ export const createNewGuestRequest = async (
   return data;
 };
 
+export const deleteGuestRequest = async (guestId: string) => {
+  const res = await fetch(`${API_BASE_URL}/${guestId}`, {
+    method: 'DELETE',
+  });
+
+  if (!res.ok) throw new Error('Failed to delete guest');
+
+  const { data } = await res.json();
+  return data;
+};
+
 export const editGuestRequest = async ({
   guestId,
   editedData,

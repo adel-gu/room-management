@@ -6,6 +6,7 @@ import Modal from '../Modal';
 import DeleteAction from '../DeleteAction';
 import styled from 'styled-components';
 import GuestForm from './GuestForm';
+import { useDeleteGuest } from '../../hooks/guests';
 
 interface Props {
   guest: IGuest;
@@ -18,6 +19,7 @@ const StyledCell = styled.div`
 `;
 
 const GuestRow = ({ guest }: Props) => {
+  const { deleteGuest, isDeletingGuestPending } = useDeleteGuest();
   return (
     <>
       <StyledCell>{guest.fullName}</StyledCell>
@@ -58,8 +60,8 @@ const GuestRow = ({ guest }: Props) => {
         <Modal.Content name="delete">
           <DeleteAction
             resourceName="Guest"
-            handleDeleteAction={() => {}}
-            disabled={false}
+            handleDeleteAction={() => deleteGuest(guest._id)}
+            disabled={isDeletingGuestPending}
           />
         </Modal.Content>
       </Modal>
