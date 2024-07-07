@@ -4,7 +4,7 @@ import {
   deleteRoomRequest,
   editRoomRequest,
   readAllRoomsRequest,
-} from '../../api/room';
+} from '../../api/rooms';
 import toast from 'react-hot-toast';
 import { useSearchParams } from 'react-router-dom';
 import { defineRoomFilterQuery } from '../../utils/defineFilters';

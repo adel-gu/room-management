@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 
-import { useCreateNewRoom, useDeleteRoom } from '../../hooks/room';
+import { useCreateNewRoom, useDeleteRoom } from '../../hooks/rooms';
 import { IRoom } from '../../types/room';
 
 import DropdownMenu from '../DropdownMenu';

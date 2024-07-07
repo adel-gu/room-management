@@ -8,7 +8,7 @@ import FormRow from '../FormRow';
 import Input from '../ui/Input';
 import Textarea from '../ui/Textarea';
 import PhotoInput from '../ui/PhotoInput';
-import { useCreateNewRoom, useEditRoom } from '../../hooks/room';
+import { useCreateNewRoom, useEditRoom } from '../../hooks/rooms';
 import Spinner from '../Spinner';
 
 interface Props {
