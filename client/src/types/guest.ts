@@ -15,14 +15,14 @@ export const formSchema = z.object({
     .string({
       required_error: 'required field',
     })
-    .min(6, 'Must be at least 03 long character')
+    .min(6, 'Must be at least 06 long character')
     .trim(),
   phone: z.string().refine(validator.isMobilePhone),
   nationality: z
     .string({
       required_error: 'required field',
     })
-    .min(6, 'Must be at least 03 long character')
+    .min(6, 'Must be at least 06 long character')
     .trim(),
   nationalID: z
     .string({
