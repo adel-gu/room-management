@@ -1,4 +1,4 @@
-import { Copy, EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
+import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 import { IGuest } from '../../types/guest';
 
 import DropdownMenu from '../DropdownMenu';
@@ -13,13 +13,14 @@ interface Props {
 }
 
 const StyledCell = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--color-grey-600);
 `;
 
 const GuestRow = ({ guest }: Props) => {
   const { deleteGuest, isDeletingGuestPending } = useDeleteGuest();
+
   return (
     <>
       <StyledCell>{guest.fullName}</StyledCell>
@@ -39,13 +40,6 @@ const GuestRow = ({ guest }: Props) => {
                   edit
                 </DropdownMenu.Item>
               </Modal.Trigger>
-              <DropdownMenu.Item
-                icon={<Copy />}
-                disabled={false}
-                onClick={() => {}}
-              >
-                duplicate
-              </DropdownMenu.Item>
               <Modal.Trigger name="delete">
                 <DropdownMenu.Item icon={<Trash2 />} disabled={false}>
                   delete
