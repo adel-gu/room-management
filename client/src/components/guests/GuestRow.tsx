@@ -7,6 +7,7 @@ import DeleteAction from '../DeleteAction';
 import styled from 'styled-components';
 import GuestForm from './GuestForm';
 import { useDeleteGuest } from '../../hooks/guests';
+import { countries } from '../../utils/countries';
 
 interface Props {
   guest: IGuest;
@@ -21,12 +22,16 @@ const StyledCell = styled.div`
 const GuestRow = ({ guest }: Props) => {
   const { deleteGuest, isDeletingGuestPending } = useDeleteGuest();
 
+  const country = countries.find((ct) => ct.value === guest.nationality);
+
   return (
     <>
       <StyledCell>{guest.fullName}</StyledCell>
       <StyledCell>{guest.phone}</StyledCell>
       <StyledCell>{guest.email ?? '--'}</StyledCell>
-      <StyledCell>{guest.nationality}</StyledCell>
+      <StyledCell>
+        {country ? `${country?.icon} ${country?.label}` : guest.nationality}
+      </StyledCell>
       <StyledCell>{guest.nationalID}</StyledCell>
       <Modal>
         <DropdownMenu>
