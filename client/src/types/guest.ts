@@ -22,7 +22,6 @@ export const formSchema = z.object({
     .string({
       required_error: 'required field',
     })
-    .min(6, 'Must be at least 06 long character')
     .trim(),
   nationalID: z
     .string({
