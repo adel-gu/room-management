@@ -40,7 +40,7 @@ export const useReadAllRooms = () => {
       searchParams.get('sort'),
     );
     queryClient.prefetchQuery({
-      queryKey: ['readAllRooms'],
+      queryKey: ['readAllRooms', newQuery],
       queryFn: () => readAllRoomsRequest(newQuery),
     });
   }
@@ -53,7 +53,7 @@ export const useReadAllRooms = () => {
       searchParams.get('sort'),
     );
     queryClient.prefetchQuery({
-      queryKey: ['readAllRooms'],
+      queryKey: ['readAllRooms', newQuery],
       queryFn: () => readAllRoomsRequest(newQuery),
     });
   }
