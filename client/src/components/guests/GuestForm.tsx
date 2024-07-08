@@ -9,6 +9,8 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Spinner from '../Spinner';
 import { useCreateNewGuest, useEditGuest } from '../../hooks/guests';
+import Select from '../ui/Select';
+import { countries } from '../../utils/countries';
 
 interface Props {
   handleclose?: () => void;
@@ -73,12 +75,16 @@ const GuestForm = ({ handleclose, guest }: Props) => {
         </FormRow>
 
         <FormRow id="nationality" label="Nationality">
-          <Input
-            type="text"
-            id="nationality"
-            {...form.register('nationality')}
-            disabled={isCreatingGuestPending}
-          />
+          <Select id="nationality" {...form.register('nationality')}>
+            {countries.map((country) => (
+              <option
+                value={country.value}
+                key={country.value + country.icon + `${Math.random()}`}
+              >
+                {country.icon} {country.label}
+              </option>
+            ))}
+          </Select>
         </FormRow>
 
         <FormRow id="nationalID" label="National ID">
