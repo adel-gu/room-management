@@ -19,7 +19,7 @@ class QueryHelper<T extends Document> {
   filter() {
     // 1. Basic query
     let queryObj = { ...this.queryString };
-    const excludeParams = ['sort', 'limit', 'page'];
+    const excludeParams = ['sort', 'limit', 'page', 'search', 'fields'];
     excludeParams.forEach((param) => delete queryObj[param]);
 
     // 2. advance filtering
@@ -49,6 +49,20 @@ class QueryHelper<T extends Document> {
 
     this.query = this.query.skip(skip).limit(LIMIT);
 
+    return this;
+  }
+
+  search() {
+    if (this.queryString.search && this.queryString.fields) {
+      const searchValue = this.queryString.search.trim();
+      const fieldsArr = this.queryString.fields.split(',');
+      const fields: { $or: { [key: string]: any }[] } = { $or: [] };
+      for (const field of fieldsArr) {
+        fields.$or.push({ [field]: new RegExp(searchValue, 'i') });
+      }
+
+      this.query = this.query.find(fields);
+    }
     return this;
   }
 

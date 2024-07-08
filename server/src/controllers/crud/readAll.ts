@@ -8,7 +8,7 @@ const readAllDoc = (model: string) => async (req: Request, res: Response) => {
     const Model = mongoose.model(model);
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
 
-    let query = new QueryHelper(Model.find(), req.query).filter();
+    let query = new QueryHelper(Model.find(), req.query).filter().search();
 
     const total = await query.getQuery().clone().countDocuments();
     const pages = Math.ceil(total / LIMIT) || 1;
