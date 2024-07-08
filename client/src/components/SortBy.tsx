@@ -9,7 +9,7 @@ interface Props {
 
 const StyledSortBy = styled.select`
   background-color: var(--color-grey-0);
-  padding: 0.8rem 1.2rem;
+  padding: 0.8rem 0.5rem;
   font-size: 1.4rem;
   font-weight: 500;
   box-shadow: var(--shadow-sm);
