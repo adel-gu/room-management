@@ -78,7 +78,7 @@ const GuestForm = ({ handleclose, guest }: Props) => {
           <Select id="nationality" {...form.register('nationality')}>
             {countries.map((country) => (
               <option
-                value={country.value}
+                value={country.label}
                 key={country.value + country.icon + `${Math.random()}`}
               >
                 {country.icon} {country.label}

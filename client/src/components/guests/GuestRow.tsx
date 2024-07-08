@@ -22,7 +22,7 @@ const StyledCell = styled.div`
 const GuestRow = ({ guest }: Props) => {
   const { deleteGuest, isDeletingGuestPending } = useDeleteGuest();
 
-  const country = countries.find((ct) => ct.value === guest.nationality);
+  const country = countries.find((ct) => ct.label === guest.nationality);
 
   return (
     <>
