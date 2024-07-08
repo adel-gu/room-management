@@ -7,55 +7,50 @@ import {
   readAllGuestsRequest,
 } from '../../api/guests';
 import toast from 'react-hot-toast';
+import { defineGuestSearchQuery } from '../../utils/defineFilters';
 
 export const useReadAllGuests = () => {
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
-  // const query = defineRoomFilterQuery(
-  //   'discount',
-  //   searchParams.get('discount'),
-  //   searchParams.get('page'),
-  //   searchParams.get('sort'),
-  // );
+  const query = defineGuestSearchQuery(
+    searchParams.get('search'),
+    searchParams.get('page'),
+  );
 
   const {
     data: { data: guests, page, pages, total } = {},
     isLoading: isGuestsLoading,
     error,
   } = useQuery({
-    queryKey: ['readAllGuests'],
-    queryFn: () => readAllGuestsRequest(''),
+    queryKey: ['readAllGuests', query],
+    queryFn: () => readAllGuestsRequest(query),
   });
 
   if (error) toast.error(error.message);
 
   // pre-fetching
-  // if (!!(page && pages) && page < pages) {
-  //   const newQuery = defineRoomFilterQuery(
-  //     'discount',
-  //     searchParams.get('discount'),
-  //     `${page + 1}`,
-  //     searchParams.get('sort'),
-  //   );
-  //   queryClient.prefetchQuery({
-  //     queryKey: ['readAllRooms'],
-  //     queryFn: () => readAllRoomsRequest(newQuery),
-  //   });
-  // }
+  if (!!(page && pages) && page < pages) {
+    const newQuery = defineGuestSearchQuery(
+      searchParams.get('search'),
+      `${page + 1}`,
+    );
+    queryClient.prefetchQuery({
+      queryKey: ['readAllGuests', newQuery],
+      queryFn: () => readAllGuestsRequest(newQuery),
+    });
+  }
 
-  // if (!!(page && pages) && page > 1) {
-  //   const newQuery = defineRoomFilterQuery(
-  //     'discount',
-  //     searchParams.get('discount'),
-  //     `${page - 1}`,
-  //     searchParams.get('sort'),
-  //   );
-  //   queryClient.prefetchQuery({
-  //     queryKey: ['readAllRooms'],
-  //     queryFn: () => readAllRoomsRequest(newQuery),
-  //   });
-  // }
+  if (!!(page && pages) && page > 1) {
+    const newQuery = defineGuestSearchQuery(
+      searchParams.get('search'),
+      `${page - 1}`,
+    );
+    queryClient.prefetchQuery({
+      queryKey: ['readAllGuests', newQuery],
+      queryFn: () => readAllGuestsRequest(newQuery),
+    });
+  }
 
   return {
     guests,
