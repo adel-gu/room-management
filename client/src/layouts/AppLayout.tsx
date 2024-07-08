@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const StyledAppLayout = styled.div`
   height: 100vh;
-
+  overflow: hidden;
   display: grid;
   grid-template-columns: 26rem 1fr;
   grid-template-rows: auto 1fr;
@@ -13,12 +13,13 @@ const StyledAppLayout = styled.div`
 
 const Main = styled.main`
   background-color: var(--color-grey-50);
+  overflow-y: scroll;
 `;
 
 const Container = styled.div`
-  max-width: 120rem;
+  max-width: 130rem;
   margin-inline: auto;
-  margin-top: 4rem;
+  margin-block: 4rem;
   padding-inline: 2rem;
   display: flex;
   flex-direction: column;
