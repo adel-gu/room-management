@@ -61,6 +61,10 @@ schema.pre<IBooking>('save', async function (next) {
     );
   }
 
+  if (room.status === 'Taken') {
+    throw new Error('Choose an available room. This room is already taken');
+  }
+
   if (this.hasBreakfast && !this.extraPrice) {
     throw new Error('Must have extra price');
   }
