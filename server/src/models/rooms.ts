@@ -1,10 +1,11 @@
 import mongoose, { Model } from 'mongoose';
 import { ModelsEnum } from '../utils/constants';
 
-interface IRoom {
+export interface IRoom {
   name: string;
   maxCapacity: number;
   regularPrice: number;
+  status?: string;
   discount?: number;
   description?: string;
   image?: string;
@@ -32,6 +33,7 @@ const schema = new mongoose.Schema<IRoom, RoomModelType>({
       message: 'Discount should be less than the regular price',
     },
   },
+  status: String,
   description: String,
   image: String,
   createdAt: {
@@ -39,6 +41,12 @@ const schema = new mongoose.Schema<IRoom, RoomModelType>({
     default: Date.now(),
     immutable: true,
   },
+});
+
+schema.pre<IRoom>('save', async function (next) {
+  this.status = 'Available';
+
+  next();
 });
 
 const Room = mongoose.model<IRoom, RoomModelType>(ModelsEnum.Room, schema);
