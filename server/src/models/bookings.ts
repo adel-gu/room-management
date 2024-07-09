@@ -71,6 +71,13 @@ schema.pre<IBooking>('save', async function (next) {
   next();
 });
 
+// Update room status
+schema.post<IBooking>('save', async function (next) {
+  await mongoose
+    .model(ModelsEnum.Room)
+    .findByIdAndUpdate(this.roomId, { status: 'Taken' });
+});
+
 const Booking = mongoose.model<IBooking, BookingModelType>(
   ModelsEnum.Booking,
   schema,
