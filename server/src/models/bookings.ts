@@ -3,8 +3,8 @@ import { ModelsEnum } from '../utils/constants';
 import { IRoom } from './rooms';
 
 interface IBooking {
-  roomId: Types.ObjectId;
-  guestId: Types.ObjectId;
+  room: Types.ObjectId;
+  guest: Types.ObjectId;
   startDate: Date;
   endDate: Date;
   numGuests: number;
@@ -22,8 +22,16 @@ interface IBooking {
 type BookingModelType = Model<IBooking>;
 
 const schema = new mongoose.Schema<IBooking>({
-  roomId: { type: mongoose.Schema.Types.ObjectId, ref: ModelsEnum.Room },
-  guestId: { type: mongoose.Schema.Types.ObjectId, ref: ModelsEnum.Guest },
+  room: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: ModelsEnum.Room,
+    autopopulate: true,
+  },
+  guest: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: ModelsEnum.Guest,
+    autopopulate: true,
+  },
   startDate: { type: Date, required: [true, 'Start date field is required!'] },
   endDate: { type: Date, required: [true, 'End date field is required!'] },
   numGuests: {
@@ -54,7 +62,7 @@ schema.pre<IBooking>('save', async function (next) {
 
   const room = (await mongoose
     .model(ModelsEnum.Room)
-    .findById(this.roomId)) as IRoom;
+    .findById(this.room)) as IRoom;
   if (room && this.numGuests > room.maxCapacity) {
     throw new Error(
       'Choose a room where number of guests is less then or equal room capacity',
@@ -79,8 +87,12 @@ schema.pre<IBooking>('save', async function (next) {
 schema.post<IBooking>('save', async function (next) {
   await mongoose
     .model(ModelsEnum.Room)
-    .findByIdAndUpdate(this.roomId, { status: 'Taken' });
+    .findByIdAndUpdate(this.room, { status: 'Taken' });
 });
+
+// When deleted update room status
+
+schema.plugin(require('mongoose-autopopulate'));
 
 const Booking = mongoose.model<IBooking, BookingModelType>(
   ModelsEnum.Booking,
