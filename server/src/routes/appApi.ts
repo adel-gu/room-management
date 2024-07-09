@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import roomController from '../controllers/room';
 import guestsController from '../controllers/guests';
+import bookingController from '../controllers/bookings';
 
 const router = express.Router();
 
@@ -25,7 +26,7 @@ router
   .patch(upload.single('roomImage'), roomController.update)
   .delete(roomController.delete);
 
-// Rooms
+// Guests
 router
   .route('/guests')
   .get(guestsController.readAll)
@@ -35,5 +36,16 @@ router
   .get(guestsController.read)
   .patch(guestsController.update)
   .delete(guestsController.delete);
+
+// Bookings
+router
+  .route('/bookings')
+  .get(bookingController.readAll)
+  .post(bookingController.create);
+router
+  .route('/bookings/:id')
+  .get(bookingController.read)
+  .patch(bookingController.update)
+  .delete(bookingController.delete);
 
 export default router;
