@@ -18,6 +18,7 @@ export const useReadAllRooms = () => {
     searchParams.get('discount'),
     searchParams.get('page'),
     searchParams.get('sort'),
+    searchParams.get('room') ?? undefined,
   );
 
   const {

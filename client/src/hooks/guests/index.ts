@@ -16,6 +16,7 @@ export const useReadAllGuests = () => {
   const query = defineGuestSearchQuery(
     searchParams.get('search'),
     searchParams.get('page'),
+    searchParams.get('guest') ?? undefined,
   );
 
   const {
