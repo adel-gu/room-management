@@ -69,7 +69,7 @@ const AutoCompleteInput = ({ name, items, render, disable }: Props) => {
         type="text"
         id={name}
         {...register(`${name}-display`)}
-        placeholder="Search"
+        placeholder={`Search for ${name}...`}
         autoComplete="off"
         disabled={disable}
         onFocus={() => setIsOpen(true)}
