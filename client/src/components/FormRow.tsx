@@ -6,11 +6,13 @@ interface Props {
   children: React.ReactNode;
   label?: string;
   id?: string;
+  ischeckbox?: string;
 }
 
-const StyledFormRow = styled.div`
+const StyledFormRow = styled.div<{ ischeckbox?: string }>`
   display: grid;
-  grid-template-columns: 24rem 1.2fr 1.5fr;
+  grid-template-columns: 24rem ${(props) =>
+      props.ischeckbox === 'true' ? 'auto' : '1.2fr'} 1.5fr;
   align-items: center;
   gap: 2.4rem;
 
@@ -36,7 +38,12 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-const FormRow = ({ children, label, id }: Props) => {
+const FormRow = ({
+  children,
+  label,
+  id,
+  ischeckbox: ischeckbox = 'false',
+}: Props) => {
   const {
     formState: { errors },
   } = useFormContext();
@@ -45,7 +52,7 @@ const FormRow = ({ children, label, id }: Props) => {
   if (id) error = errors[id] as FieldError | undefined;
 
   return (
-    <StyledFormRow>
+    <StyledFormRow ischeckbox={ischeckbox}>
       <Label htmlFor={id}>{label}</Label>
       {children}
       {error && <Error>{error.message}</Error>}
