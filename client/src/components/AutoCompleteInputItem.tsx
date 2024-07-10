@@ -1,6 +1,7 @@
 import { useFormContext } from 'react-hook-form';
-import { Item } from './AutoCompleteInput';
+import { AutoCompleteInputContext, Item } from './AutoCompleteInput';
 import styled from 'styled-components';
+import { useContext } from 'react';
 
 interface Props {
   item: Item;
@@ -18,14 +19,16 @@ const StyledAutoCompleteItem = styled.li`
 
 const AutoCompleteInputItem = ({ item, name }: Props) => {
   const { setValue } = useFormContext();
+  const { closeOption } = useContext(AutoCompleteInputContext);
+
+  const handleClick = () => {
+    setValue(name, item.id);
+    setValue(`${name}-display`, item.name);
+    closeOption?.();
+  };
 
   return (
-    <StyledAutoCompleteItem
-      onClick={() => {
-        setValue(name, item.id);
-        setValue(`${name}-display`, item.name);
-      }}
-    >
+    <StyledAutoCompleteItem onClick={handleClick}>
       {item.name}
     </StyledAutoCompleteItem>
   );
