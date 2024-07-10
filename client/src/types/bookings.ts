@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { IGuest } from './guest';
 import { IRoom } from './room';
 
@@ -26,3 +27,38 @@ export type GetAllBookingsResType = {
   total: number;
   data: IBooking[];
 };
+
+export const formSchema = z
+  .object({
+    room: z.string().min(1, { message: 'This field is required' }),
+    guest: z.string().min(1, { message: 'This field is required' }),
+    startDate: z.coerce.date({ required_error: 'required field' }),
+    endDate: z.coerce.date({ required_error: 'required field' }),
+    numGuests: z.coerce.number().min(1, { message: 'At least one guest' }),
+    // status: z.enum(['Pending', 'Check-in'], {
+    //   required_error: 'Required field',
+    // }),
+    hasBreakfast: z.coerce.boolean({ required_error: 'Required field' }),
+    isPaid: z.coerce.boolean({ required_error: 'Required field' }),
+    extraPrice: z.coerce.number().optional(),
+    observations: z.string().optional(),
+  })
+  .refine((data) => data.endDate > data.startDate, {
+    message: 'End date must be after start date',
+    path: ['endDate'],
+  })
+  .refine(
+    (data) => {
+      if (data.hasBreakfast) {
+        return data.extraPrice !== undefined;
+      }
+
+      return true;
+    },
+    {
+      message: 'Required field',
+      path: ['extraPrice'],
+    },
+  );
+
+export type BookingFormData = z.infer<typeof formSchema>;
