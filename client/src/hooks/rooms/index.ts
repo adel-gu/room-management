@@ -9,17 +9,18 @@ import toast from 'react-hot-toast';
 import { useSearchParams } from 'react-router-dom';
 import { defineRoomFilterQuery } from '../../utils/defineFilters';
 
-export const useReadAllRooms = () => {
+export const useReadAllRooms = (extraQuery?: string) => {
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
-  const query = defineRoomFilterQuery(
-    'discount',
-    searchParams.get('discount'),
-    searchParams.get('page'),
-    searchParams.get('sort'),
-    searchParams.get('room') ?? undefined,
-  );
+  const query =
+    defineRoomFilterQuery(
+      'discount',
+      searchParams.get('discount'),
+      searchParams.get('page'),
+      searchParams.get('sort'),
+      searchParams.get('room') ?? undefined,
+    ) + (extraQuery ?? '');
 
   const {
     data: { data: rooms, page, pages, total } = {},
