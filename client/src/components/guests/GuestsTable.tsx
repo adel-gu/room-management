@@ -10,13 +10,14 @@ const GuestsTable = () => {
   if (isGuestsLoading) return <Spinner />;
 
   return (
-    <Table columns="repeat(3, 1.5fr) repeat(3, 1fr)">
+    <Table columns="repeat(3, 1.5fr) repeat(3, 1fr) 0.5fr">
       <Table.Header>
         <div>Full Name</div>
         <div>Phone</div>
         <div>Email</div>
         <div>Nationality</div>
         <div>National ID</div>
+        <div>Status</div>
         <div></div>
       </Table.Header>
       <Table.Body>
