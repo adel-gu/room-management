@@ -1,5 +1,5 @@
 import mongoose, { Types, Model, Query, Document } from 'mongoose';
-import { ModelsEnum } from '../utils/constants';
+import { ModelsEnum, RoomStatus, BookingStatus } from '../utils/constants';
 import { IRoom } from './rooms';
 
 interface IBooking {
@@ -8,7 +8,7 @@ interface IBooking {
   startDate: Date;
   endDate: Date;
   numGuests: number;
-  status: string;
+  status: BookingStatus;
   hasBreakfast: boolean;
   isPaid: boolean;
   createdAt: Date;
@@ -38,7 +38,12 @@ const schema = new mongoose.Schema<IBooking>({
     type: Number,
     required: [true, 'Number of guests field is required!'],
   },
-  status: { type: String, required: [true, 'Status field is required!'] },
+  status: {
+    type: String,
+    enum: BookingStatus,
+    default: BookingStatus.Pending,
+    required: [true, 'Status field is required!'],
+  },
   hasBreakfast: {
     type: Boolean,
     required: [true, 'Has breakfast field is required!'],
@@ -69,7 +74,7 @@ schema.pre<IBooking>('save', async function (next) {
     );
   }
 
-  if (room.status === 'Taken') {
+  if (room.status !== RoomStatus.Available) {
     throw new Error('Choose an available room. This room is already taken');
   }
 
