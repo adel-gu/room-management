@@ -11,13 +11,14 @@ const RoomsTable = () => {
   if (isRoomsLoading) return <Spinner />;
 
   return (
-    <Table columns="0.6fr 1.8fr 2.2fr repeat(3, 1fr)">
+    <Table columns="0.6fr 1.8fr 2.2fr repeat(3, 1fr) .1fr">
       <Table.Header>
         <div></div>
         <div>Room</div>
         <div>Capacity</div>
         <div>Price</div>
         <div>Discount</div>
+        <div>Status</div>
         <div></div>
       </Table.Header>
       <Table.Body>
