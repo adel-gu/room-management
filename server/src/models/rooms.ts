@@ -1,11 +1,11 @@
 import mongoose, { Model } from 'mongoose';
-import { ModelsEnum } from '../utils/constants';
+import { ModelsEnum, RoomStatus } from '../utils/constants';
 
 export interface IRoom {
   name: string;
   maxCapacity: number;
   regularPrice: number;
-  status?: string;
+  status: RoomStatus;
   discount?: number;
   description?: string;
   image?: string;
@@ -33,7 +33,12 @@ const schema = new mongoose.Schema<IRoom, RoomModelType>({
       message: 'Discount should be less than the regular price',
     },
   },
-  status: String,
+  status: {
+    type: String,
+    enum: RoomStatus,
+    default: RoomStatus.Available,
+    required: [true, 'A room must have a status'],
+  },
   description: String,
   image: String,
   createdAt: {
@@ -41,12 +46,6 @@ const schema = new mongoose.Schema<IRoom, RoomModelType>({
     default: Date.now(),
     immutable: true,
   },
-});
-
-schema.pre<IRoom>('save', async function (next) {
-  this.status = 'Available';
-
-  next();
 });
 
 const Room = mongoose.model<IRoom, RoomModelType>(ModelsEnum.Room, schema);

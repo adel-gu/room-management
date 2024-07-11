@@ -1,6 +1,6 @@
 import mongoose, { Model } from 'mongoose';
 import validator from 'validator';
-import { ModelsEnum } from '../utils/constants';
+import { GuestStatus, ModelsEnum } from '../utils/constants';
 
 interface IGuest {
   fullName: string;
@@ -8,6 +8,7 @@ interface IGuest {
   nationality: string;
   nationalID: string;
   createdAt: Date;
+  status: GuestStatus;
   email?: string;
 }
 
@@ -41,6 +42,12 @@ const schema = new mongoose.Schema<IGuest, GuestModelType>({
     type: Date,
     default: Date.now(),
     immutable: true,
+  },
+  status: {
+    type: String,
+    enum: GuestStatus,
+    default: GuestStatus.Pending,
+    required: [true, 'A room must have a status'],
   },
   email: {
     type: String,
