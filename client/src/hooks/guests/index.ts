@@ -9,15 +9,16 @@ import {
 import toast from 'react-hot-toast';
 import { defineGuestSearchQuery } from '../../utils/defineFilters';
 
-export const useReadAllGuests = () => {
+export const useReadAllGuests = (extraQuery?: string) => {
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
-  const query = defineGuestSearchQuery(
-    searchParams.get('search'),
-    searchParams.get('page'),
-    searchParams.get('guest') ?? undefined,
-  );
+  const query =
+    defineGuestSearchQuery(
+      searchParams.get('search'),
+      searchParams.get('page'),
+      searchParams.get('guest') ?? undefined,
+    ) + (extraQuery ?? '');
 
   const {
     data: { data: guests, page, pages, total } = {},
