@@ -35,6 +35,7 @@ const RoomForm = ({ handleclose, room }: Props) => {
     formData.append('name', data.name);
     formData.append('maxCapacity', data.maxCapacity.toString());
     formData.append('regularPrice', data.regularPrice.toString());
+    formData.append('status', data.status);
 
     if (data.discount !== null && data.discount !== undefined)
       formData.append('discount', data.discount.toString());

@@ -8,6 +8,7 @@ import DropdownMenu from '../DropdownMenu';
 import Modal from '../Modal';
 import DeleteAction from '../DeleteAction';
 import RoomForm from './RoomForm';
+import Badge from '../ui/Badge';
 
 interface Props {
   room: IRoom;
@@ -78,6 +79,9 @@ const RoomRow = ({ room }: Props) => {
       <RoomDiscount>
         {room.discount === 0 ? '--' : formatCurrency(room.discount)}
       </RoomDiscount>
+      <div>
+        <Badge status={room.status}>{room.status}</Badge>
+      </div>
       <Modal>
         <DropdownMenu>
           <DropdownMenu.Trigger>
