@@ -11,6 +11,7 @@ import Spinner from '../Spinner';
 import { useCreateNewGuest, useEditGuest } from '../../hooks/guests';
 import Select from '../ui/Select';
 import { countries } from '../../utils/countries';
+import { GuestStatus } from '../../utils/constants';
 
 interface Props {
   handleclose?: () => void;
@@ -72,6 +73,16 @@ const GuestForm = ({ handleclose, guest }: Props) => {
             {...form.register('email')}
             disabled={isCreatingGuestPending}
           />
+        </FormRow>
+
+        <FormRow id="status" label="Status">
+          <Select id="status" {...form.register('status')}>
+            {Object.values(GuestStatus).map((s: GuestStatus) => (
+              <option value={s} key={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
         </FormRow>
 
         <FormRow id="nationality" label="Nationality">
