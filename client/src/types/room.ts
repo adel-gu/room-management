@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { RoomStatus } from '../utils/constants';
 
 const MAX_UPLOAD_SIZE = 5 * 1024 * 1024; // 5mb
 const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/jpg', 'image/jpeg'];
@@ -8,6 +9,7 @@ export interface IRoom {
   name: string;
   maxCapacity: number;
   regularPrice: number;
+  status: RoomStatus;
   discount?: number;
   description?: string;
   image?: string;
@@ -35,6 +37,7 @@ export const formSchema = z
         invalid_type_error: 'Must be a valid number',
       })
       .min(1),
+    status: z.nativeEnum(RoomStatus).optional().default(RoomStatus.Available),
     discount: z.coerce.number().optional(),
     description: z
       .string()
