@@ -16,6 +16,16 @@ export const readAllBookingsRequest = async (
   return data;
 };
 
+export const readBookingDetailsRequest = async (
+  bookingId: string,
+): Promise<IBooking> => {
+  const res = await fetch(`${API_BASE_URL}/${bookingId}`);
+  if (!res.ok) throw new Error('Error Fetching booking!');
+  const { data } = await res.json();
+
+  return data;
+};
+
 export const createNewBookingRequest = async (
   booking: BookingFormData,
 ): Promise<IBooking> => {
