@@ -6,7 +6,7 @@ import Modal from '../Modal';
 import DropdownMenu from '../DropdownMenu';
 import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
 import { formatCurrency, formatDistanceFromNow } from '../../utils/helpers';
-import Tag from '../ui/Tag';
+import Badge from '../ui/Badge';
 
 interface Props {
   booking: IBooking;
@@ -63,7 +63,11 @@ const BookingRow = ({ booking }: Props) => {
         </span>
       </Stacked>
 
-      <Tag type={booking.status}>{booking.status.replace('-', ' ')}</Tag>
+      <div>
+        <Badge status={booking.status}>
+          {booking.status.replace('-', ' ')}
+        </Badge>
+      </div>
 
       <Amount>{formatCurrency(booking.totalPrice ?? 0)}</Amount>
       <Modal>
