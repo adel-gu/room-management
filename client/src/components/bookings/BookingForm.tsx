@@ -18,6 +18,8 @@ import styled from 'styled-components';
 import AutoCompleteInput from '../AutoCompleteInput';
 import AutoCompleteInputItem from '../AutoCompleteInputItem';
 import { useCreateNewBooking } from '../../hooks/bookings';
+import Select from '../ui/Select';
+import { BookingStatus } from '../../utils/constants';
 
 const CheckBox = styled.input.attrs({ type: 'checkbox' })`
   border: 1px solid red;
@@ -54,8 +56,7 @@ const BookingForm = ({ handleclose, booking }: Props) => {
   }, [hasBreakfast, form.unregister]);
 
   const onSubmit = (data: BookingFormData) => {
-    const tempData = { ...data, status: 'Check in' };
-    createNewBooking(tempData, {
+    createNewBooking(data, {
       onSuccess: () => {
         form.reset();
         handleclose?.();
@@ -119,16 +120,15 @@ const BookingForm = ({ handleclose, booking }: Props) => {
           />
         </FormRow>
 
-        {/* TODO: status */}
-        {/* <FormRow id="status" label="Status">
+        <FormRow id="status" label="Status">
           <Select id="status" {...form.register('status')}>
-            {['Pending', 'Check-in']?.map((s) => (
+            {Object.values(BookingStatus).map((s: BookingStatus) => (
               <option value={s} key={s}>
                 {s}
               </option>
             ))}
           </Select>
-        </FormRow> */}
+        </FormRow>
 
         <FormRow id="hasBreakfast" label="Has Breakfast?" ischeckbox="true">
           <CheckBox

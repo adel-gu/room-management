@@ -10,6 +10,8 @@ import Textarea from '../ui/Textarea';
 import PhotoInput from '../ui/PhotoInput';
 import { useCreateNewRoom, useEditRoom } from '../../hooks/rooms';
 import Spinner from '../Spinner';
+import { RoomStatus } from '../../utils/constants';
+import Select from '../ui/Select';
 
 interface Props {
   handleclose?: () => void;
@@ -95,6 +97,16 @@ const RoomForm = ({ handleclose, room }: Props) => {
             defaultValue={0}
             disabled={isCreatingRoomPending}
           />
+        </FormRow>
+
+        <FormRow id="status" label="Status">
+          <Select id="status" {...form.register('status')}>
+            {Object.values(RoomStatus).map((s: RoomStatus) => (
+              <option value={s} key={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
         </FormRow>
 
         <FormRow id="description" label="Description">
