@@ -88,11 +88,11 @@ schema.pre<IBooking>('save', async function (next) {
   next();
 });
 
-// Update room status
+// Update room status (when creating a room)
 schema.post<IBooking>('save', async function (next) {
   await mongoose
     .model(ModelsEnum.Room)
-    .findByIdAndUpdate(this.room, { status: 'Taken' });
+    .findByIdAndUpdate(this.room, { status: RoomStatus.Reserved });
 });
 
 // When deleted update room status
