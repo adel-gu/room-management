@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IGuest } from './guest';
 import { IRoom } from './room';
+import { BookingStatus } from '../utils/constants';
 
 export interface IBooking {
   _id: string;
@@ -9,7 +10,7 @@ export interface IBooking {
   startDate: Date;
   endDate: Date;
   numGuests: number;
-  status: string;
+  status: BookingStatus;
   hasBreakfast: boolean;
   isPaid: boolean;
   createdAt: Date;
@@ -35,9 +36,10 @@ export const formSchema = z
     startDate: z.coerce.date({ required_error: 'required field' }),
     endDate: z.coerce.date({ required_error: 'required field' }),
     numGuests: z.coerce.number().min(1, { message: 'At least one guest' }),
-    // status: z.enum(['Pending', 'Check-in'], {
-    //   required_error: 'Required field',
-    // }),
+    status: z
+      .nativeEnum(BookingStatus)
+      .optional()
+      .default(BookingStatus.Pending),
     hasBreakfast: z.coerce.boolean({ required_error: 'Required field' }),
     isPaid: z.coerce.boolean({ required_error: 'Required field' }),
     extraPrice: z.coerce.number().optional(),

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import validator from 'validator';
+import { GuestStatus } from '../utils/constants';
 
 export interface IGuest {
   _id: string;
@@ -7,6 +8,7 @@ export interface IGuest {
   phone: string;
   nationality: string;
   nationalID: string;
+  status: GuestStatus;
   email?: string;
 }
 
@@ -28,6 +30,7 @@ export const formSchema = z.object({
       required_error: 'required field',
     })
     .trim(),
+  status: z.nativeEnum(GuestStatus).optional().default(GuestStatus.Pending),
   email: z.string().refine(validator.isEmail).optional(),
 });
 
