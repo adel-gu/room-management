@@ -25,7 +25,7 @@ class QueryHelper<T extends Document> {
     // 2. advance filtering
     const queryStr = JSON.stringify(queryObj);
     queryObj = JSON.parse(
-      queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`),
+      queryStr.replace(/\b(gte|gt|lte|lt|ne)\b/g, (match) => `$${match}`),
     );
 
     this.query = this.query.find(queryObj);
