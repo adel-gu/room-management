@@ -4,9 +4,10 @@ import { format, isToday } from 'date-fns';
 import { IBooking } from '../../types/bookings';
 import Modal from '../Modal';
 import DropdownMenu from '../DropdownMenu';
-import { EllipsisVertical, Pencil, Trash2 } from 'lucide-react';
+import { EllipsisVertical, Eye, Trash2 } from 'lucide-react';
 import { formatCurrency, formatDistanceFromNow } from '../../utils/helpers';
 import Badge from '../ui/Badge';
+import { Link } from 'react-router-dom';
 
 interface Props {
   booking: IBooking;
@@ -77,11 +78,12 @@ const BookingRow = ({ booking }: Props) => {
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Group>
-              <Modal.Trigger name="edit">
-                <DropdownMenu.Item icon={<Pencil />} disabled={false}>
-                  edit
+              <Link to={`/bookings/${booking._id}`}>
+                <DropdownMenu.Item icon={<Eye />} disabled={false}>
+                  Details
                 </DropdownMenu.Item>
-              </Modal.Trigger>
+              </Link>
+
               <Modal.Trigger name="delete">
                 <DropdownMenu.Item icon={<Trash2 />} disabled={false}>
                   delete
