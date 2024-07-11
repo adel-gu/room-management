@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import GuestForm from './GuestForm';
 import { useDeleteGuest } from '../../hooks/guests';
 import { countries } from '../../utils/countries';
+import Badge from '../ui/Badge';
 
 interface Props {
   guest: IGuest;
@@ -33,6 +34,9 @@ const GuestRow = ({ guest }: Props) => {
         {country ? `${country?.icon} ${country?.label}` : guest.nationality}
       </StyledCell>
       <StyledCell>{guest.nationalID}</StyledCell>
+      <StyledCell>
+        <Badge status={guest.status}>{guest.status}</Badge>
+      </StyledCell>
       <Modal>
         <DropdownMenu>
           <DropdownMenu.Trigger>
