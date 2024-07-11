@@ -1,6 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { readAllBookingsRequest } from '../../api/bookings';
+import {
+  createNewBookingRequest,
+  readAllBookingsRequest,
+} from '../../api/bookings';
 
 export const useReadAllBookings = () => {
   // const [searchParams] = useSearchParams();
@@ -18,7 +21,7 @@ export const useReadAllBookings = () => {
     isLoading: isBookingsLoading,
     error,
   } = useQuery({
-    queryKey: ['readAllRooms'],
+    queryKey: ['readAllBookings'],
     queryFn: () => readAllBookingsRequest(''),
   });
 
@@ -58,4 +61,22 @@ export const useReadAllBookings = () => {
     total,
     isBookingsLoading,
   };
+};
+
+export const useCreateNewBooking = () => {
+  const queryClient = useQueryClient();
+  const { mutate: createNewBooking, isPending: isCreatingBookingPending } =
+    useMutation({
+      mutationKey: ['createBooking'],
+      mutationFn: createNewBookingRequest,
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['readAllBookings'] });
+        toast.success('Booking created successfully');
+      },
+      onError: (err) => {
+        toast.error(err.message);
+      },
+    });
+
+  return { createNewBooking, isCreatingBookingPending };
 };

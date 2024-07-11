@@ -17,6 +17,7 @@ import { useReadAllGuests } from '../../hooks/guests';
 import styled from 'styled-components';
 import AutoCompleteInput from '../AutoCompleteInput';
 import AutoCompleteInputItem from '../AutoCompleteInputItem';
+import { useCreateNewBooking } from '../../hooks/bookings';
 
 const CheckBox = styled.input.attrs({ type: 'checkbox' })`
   border: 1px solid red;
@@ -37,10 +38,10 @@ const BookingForm = ({ handleclose, booking }: Props) => {
     // },
   });
 
+  const { createNewBooking, isCreatingBookingPending } = useCreateNewBooking();
   const { rooms } = useReadAllRooms();
   const { guests } = useReadAllGuests();
 
-  const isCreatingBookingPending = false;
   const disabledBtn = false;
   const isEditing = false;
 
@@ -53,21 +54,13 @@ const BookingForm = ({ handleclose, booking }: Props) => {
   }, [hasBreakfast, form.unregister]);
 
   const onSubmit = (data: BookingFormData) => {
-    // if (isEditing) {
-    //   editGuest(
-    //     { guestId: guest._id, editedData: data },
-    //     { onSuccess: () => handleclose?.() },
-    //   );
-    // } else {
-    // }
-    // createNewBooking(data, {
-    //   onSuccess: () => {
-    //     form.reset();
-    //     handleclose?.();
-    //   },
-    // });
-
-    console.log('DATA: ', data);
+    const tempData = { ...data, status: 'Check in' };
+    createNewBooking(tempData, {
+      onSuccess: () => {
+        form.reset();
+        handleclose?.();
+      },
+    });
   };
 
   return (
