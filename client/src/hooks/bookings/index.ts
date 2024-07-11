@@ -3,7 +3,9 @@ import toast from 'react-hot-toast';
 import {
   createNewBookingRequest,
   readAllBookingsRequest,
+  readBookingDetailsRequest,
 } from '../../api/bookings';
+import { useParams } from 'react-router-dom';
 
 export const useReadAllBookings = () => {
   // const [searchParams] = useSearchParams();
@@ -60,6 +62,26 @@ export const useReadAllBookings = () => {
     pages,
     total,
     isBookingsLoading,
+  };
+};
+
+export const useReadBookingDetails = () => {
+  const { bookingId } = useParams();
+  const {
+    data: bookingDetails,
+    isLoading: isBookingDetailsLoading,
+    error,
+  } = useQuery({
+    queryKey: ['readBookingDetails'],
+    queryFn: () => readBookingDetailsRequest(bookingId ?? ''),
+  });
+
+  if (error) toast.error(error.message);
+
+  return {
+    bookingDetails,
+
+    isBookingDetailsLoading,
   };
 };
 
