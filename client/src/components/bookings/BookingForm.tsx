@@ -19,7 +19,7 @@ import AutoCompleteInput from '../AutoCompleteInput';
 import AutoCompleteInputItem from '../AutoCompleteInputItem';
 import { useCreateNewBooking } from '../../hooks/bookings';
 import Select from '../ui/Select';
-import { BookingStatus } from '../../utils/constants';
+import { BookingStatus, GuestStatus, RoomStatus } from '../../utils/constants';
 
 const CheckBox = styled.input.attrs({ type: 'checkbox' })`
   border: 1px solid red;
@@ -41,8 +41,8 @@ const BookingForm = ({ handleclose, booking }: Props) => {
   });
 
   const { createNewBooking, isCreatingBookingPending } = useCreateNewBooking();
-  const { rooms } = useReadAllRooms();
-  const { guests } = useReadAllGuests();
+  const { rooms } = useReadAllRooms(`&status=${RoomStatus.Available}`);
+  const { guests } = useReadAllGuests(`&status[ne]=${GuestStatus.CheckedIn}`);
 
   const disabledBtn = false;
   const isEditing = false;
@@ -170,12 +170,12 @@ const BookingForm = ({ handleclose, booking }: Props) => {
             variation="secondary"
             type="reset"
             onClick={handleclose}
-            disabled={disabledBtn}
+            disabled={isCreatingBookingPending}
           >
             Cancel
           </Button>
-          <Button type="submit" disabled={disabledBtn}>
-            {disabledBtn ? (
+          <Button type="submit" disabled={isCreatingBookingPending}>
+            {isCreatingBookingPending ? (
               <Spinner size="sm" color="secondary" />
             ) : isEditing ? (
               'Edit'
