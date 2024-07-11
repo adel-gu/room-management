@@ -40,6 +40,40 @@ const GlobalStyles = createGlobalStyle`
     --color-red-700: #b91c1c;
     --color-red-800: #991b1b;
 
+    /* Status */
+    --color-pending-700: #3d8b3d;
+    --color-pending-100: #d4edda;
+
+    --color-confirmed-700: #1b6d85;
+    --color-confirmed-100: #d1ecf1;
+
+    --color-checkedin-700: #155724;
+    --color-checkedin-100: #c3e6cb;
+
+    --color-checkedout-700: #004085;
+    --color-checkedout-100: #cce5ff;
+
+    --color-cancelled-700: #721c24;
+    --color-cancelled-100: #f8d7da;
+
+    --color-noshow-700: #856404;
+    --color-noshow-100: #fff3cd;
+
+    --color-available-700: #155724;
+    --color-available-100: #c3e6cb;
+
+    --color-reserved-700: #856404;
+    --color-reserved-100: #fff3cd;
+
+    --color-occupied-700: #721c24;
+    --color-occupied-100: #f8d7da;
+
+    --color-cleaning-700: #0c5460;
+    --color-cleaning-100: #d1ecf1;
+
+    --color-maintenance-700: #004085;
+    --color-maintenance-100: #cce5ff;
+
     --backdrop-color: rgba(255, 255, 255, 0.1);
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
