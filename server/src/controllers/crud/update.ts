@@ -16,9 +16,7 @@ const updateDoc = (model: string) => async (req: Request, res: Response) => {
       });
 
     for (const key in req.body) {
-      if (doc.toObject().hasOwnProperty(key)) {
-        doc[key] = req.body[key];
-      }
+      doc[key] = req.body[key];
     }
 
     // Validate doc
