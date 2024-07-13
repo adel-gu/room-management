@@ -21,10 +21,6 @@ import { useCreateNewBooking } from '../../hooks/bookings';
 import Select from '../ui/Select';
 import { BookingStatus, GuestStatus, RoomStatus } from '../../utils/constants';
 
-const CheckBox = styled.input.attrs({ type: 'checkbox' })`
-  border: 1px solid red;
-`;
-
 interface Props {
   handleclose?: () => void;
   booking?: IBooking;
@@ -33,11 +29,6 @@ interface Props {
 const BookingForm = ({ handleclose, booking }: Props) => {
   const form = useForm<BookingFormData>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   ...booking,
-    //   room: booking?.room._id ?? '',
-    //   guest: booking?.guest._id ?? '',
-    // },
   });
 
   const { createNewBooking, isCreatingBookingPending } = useCreateNewBooking();
@@ -131,7 +122,7 @@ const BookingForm = ({ handleclose, booking }: Props) => {
         </FormRow>
 
         <FormRow id="hasBreakfast" label="Has Breakfast?" ischeckbox="true">
-          <CheckBox
+          <Input
             type="checkbox"
             value="hasBreakfast"
             {...form.register('hasBreakfast')}
@@ -150,11 +141,7 @@ const BookingForm = ({ handleclose, booking }: Props) => {
         )}
 
         <FormRow id="isPaid" label="Paid?" ischeckbox="true">
-          <CheckBox
-            type="checkbox"
-            value="isPaid"
-            {...form.register('isPaid')}
-          />
+          <Input type="checkbox" value="isPaid" {...form.register('isPaid')} />
         </FormRow>
 
         <FormRow id="observations" label="Observations">
