@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Heading from '../ui/Heading';
 import Wrapper from '../ui/Wrapper';
 import Badge from '../ui/Badge';
@@ -7,8 +7,12 @@ import ButtonText from '../ui/ButtonText';
 import { useReadBookingDetails } from '../../hooks/bookings';
 import Spinner from '../Spinner';
 import BookingCard from './BookingCard';
+import ButtonGroup from '../ui/ButtonGroup';
+import Button from '../ui/Button';
+import { BookingStatus } from '../../utils/constants';
 
 const BookingDetails = () => {
+  const navigate = useNavigate();
   const { bookingDetails, isBookingDetailsLoading } = useReadBookingDetails();
 
   if (isBookingDetailsLoading) return <Spinner />;
@@ -27,6 +31,14 @@ const BookingDetails = () => {
       </Wrapper>
 
       <BookingCard booking={bookingDetails} />
+
+      <ButtonGroup>
+        {bookingDetails.status === BookingStatus.Pending && (
+          <Button onClick={() => navigate(`/checkin/${bookingDetails._id}`)}>
+            Check in
+          </Button>
+        )}
+      </ButtonGroup>
     </>
   );
 };
