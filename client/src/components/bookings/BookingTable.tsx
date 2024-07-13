@@ -10,7 +10,7 @@ const BookingTable = () => {
 
   if (isBookingsLoading) return <Spinner />;
   return (
-    <Table columns="1.5fr 1.5fr 2.4fr 1fr 1fr 0.5fr">
+    <Table columns="repeat(2,1.5fr) 2.4fr repeat(3,1fr)">
       <Table.Header>
         <div>Room</div>
         <div>Guest</div>
