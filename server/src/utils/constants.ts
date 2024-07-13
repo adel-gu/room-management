@@ -14,6 +14,7 @@ export enum RoomStatus {
 
 export enum GuestStatus {
   Pending = 'Pending',
+  Reserved = 'Reserved',
   CheckedIn = 'CheckedIn',
   CheckedOut = 'CheckedOut',
   Cancelled = 'Cancelled',
