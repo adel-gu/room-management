@@ -1,5 +1,10 @@
 import mongoose, { Types, Model, Query, Document } from 'mongoose';
-import { ModelsEnum, RoomStatus, BookingStatus } from '../utils/constants';
+import {
+  ModelsEnum,
+  RoomStatus,
+  BookingStatus,
+  GuestStatus,
+} from '../utils/constants';
 import { IRoom } from './rooms';
 
 interface IBooking {
@@ -17,6 +22,7 @@ interface IBooking {
   numNights?: number;
   extraPrice?: number;
   observations?: string;
+  wasNew?: boolean;
 }
 
 type BookingModelType = Model<IBooking>;
@@ -57,7 +63,9 @@ const schema = new mongoose.Schema<IBooking>({
   observations: String,
 });
 
-schema.pre<IBooking>('save', async function (next) {
+schema.pre('save', async function (next) {
+  if (!this.isNew) return next();
+
   if (this.startDate && this.endDate) {
     const diffTime = Math.abs(
       this.endDate.getTime() - this.startDate.getTime(),
@@ -74,7 +82,7 @@ schema.pre<IBooking>('save', async function (next) {
     );
   }
 
-  if (room.status !== RoomStatus.Available) {
+  if (this.isNew && room.status !== RoomStatus.Available) {
     throw new Error('Choose an available room. This room is already taken');
   }
 
@@ -88,11 +96,36 @@ schema.pre<IBooking>('save', async function (next) {
   next();
 });
 
-// Update room status (when creating a room)
-schema.post<IBooking>('save', async function (next) {
-  await mongoose
-    .model(ModelsEnum.Room)
-    .findByIdAndUpdate(this.room, { status: RoomStatus.Reserved });
+// Update room status + guest status (when check-in a booking)
+schema.pre('save', async function (next) {
+  if (this.isModified('status') && !this.isNew) {
+    await mongoose
+      .model(ModelsEnum.Room)
+      .findByIdAndUpdate(this.room, { status: RoomStatus.Occupied });
+    await mongoose
+      .model(ModelsEnum.Guest)
+      .findByIdAndUpdate(this.guest, { status: GuestStatus.CheckedIn });
+  }
+  next();
+});
+
+schema.pre('save', function (next) {
+  if (this.isNew) {
+    this.wasNew = true;
+  }
+  next();
+});
+
+schema.post('save', async function () {
+  if (this.wasNew) {
+    await mongoose
+      .model(ModelsEnum.Room)
+      .findByIdAndUpdate(this.room, { status: RoomStatus.Reserved });
+    await mongoose
+      .model(ModelsEnum.Guest)
+      .findByIdAndUpdate(this.guest, { status: GuestStatus.Reserved });
+  }
+  this.wasNew = false;
 });
 
 // When deleted update room status
