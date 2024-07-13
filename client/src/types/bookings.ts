@@ -21,6 +21,13 @@ export interface IBooking {
   observations?: string;
 }
 
+export interface ICheckin {
+  status: BookingStatus.CheckedIn;
+  hasBreakfast?: boolean;
+  isPaid: boolean;
+  extraPrice?: number;
+}
+
 export type GetAllBookingsResType = {
   page: number;
   pages: number;
