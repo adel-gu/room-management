@@ -2,10 +2,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import {
   createNewBookingRequest,
+  editBookingRequest,
   readAllBookingsRequest,
   readBookingDetailsRequest,
 } from '../../api/bookings';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const useReadAllBookings = () => {
   // const [searchParams] = useSearchParams();
@@ -102,3 +103,22 @@ export const useCreateNewBooking = () => {
 
   return { createNewBooking, isCreatingBookingPending };
 };
+
+export function useCheckin() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate: checkin, isPending: isCheckingIn } = useMutation({
+    mutationFn: editBookingRequest,
+
+    onSuccess: (data) => {
+      toast.success(`Booking #${data.id} successfully checked in`);
+      queryClient.invalidateQueries({ queryKey: ['readBookingDetails'] });
+      navigate('/');
+    },
+
+    onError: () => toast.error('There was an error while checking in'),
+  });
+
+  return { checkin, isCheckingIn };
+}
