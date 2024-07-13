@@ -1,13 +1,14 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { format, isToday } from 'date-fns';
 
 import { IBooking } from '../../types/bookings';
 import Modal from '../Modal';
 import DropdownMenu from '../DropdownMenu';
-import { EllipsisVertical, Eye, Trash2 } from 'lucide-react';
+import { Ellipsis, Eye, SquareArrowOutDownRight, Trash2 } from 'lucide-react';
 import { formatCurrency, formatDistanceFromNow } from '../../utils/helpers';
 import Badge from '../ui/Badge';
-import { Link } from 'react-router-dom';
+import { BookingStatus } from '../../utils/constants';
 
 interface Props {
   booking: IBooking;
@@ -74,7 +75,7 @@ const BookingRow = ({ booking }: Props) => {
       <Modal>
         <DropdownMenu>
           <DropdownMenu.Trigger>
-            <EllipsisVertical />
+            <Ellipsis />
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
             <DropdownMenu.Group>
@@ -83,6 +84,17 @@ const BookingRow = ({ booking }: Props) => {
                   Details
                 </DropdownMenu.Item>
               </Link>
+
+              {booking.status === BookingStatus.Pending && (
+                <Link to={`/checkin/${booking._id}`}>
+                  <DropdownMenu.Item
+                    icon={<SquareArrowOutDownRight />}
+                    disabled={false}
+                  >
+                    Check in
+                  </DropdownMenu.Item>
+                </Link>
+              )}
 
               <Modal.Trigger name="delete">
                 <DropdownMenu.Item icon={<Trash2 />} disabled={false}>
