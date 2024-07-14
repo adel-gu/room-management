@@ -60,7 +60,7 @@ const CheckinBooking = () => {
       <Wrapper direction="hr">
         <Heading as="h1">Booking #{bookingDetails?._id}</Heading>
 
-        <ButtonText>&larr; Back</ButtonText>
+        <ButtonText onClick={() => navigate(-1)}>&larr; Back</ButtonText>
       </Wrapper>
 
       <BookingCard booking={bookingDetails} />

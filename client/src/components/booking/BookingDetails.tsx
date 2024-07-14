@@ -10,13 +10,14 @@ import BookingCard from './BookingCard';
 import ButtonGroup from '../ui/ButtonGroup';
 import Button from '../ui/Button';
 import { BookingStatus } from '../../utils/constants';
+import Empty from '../Empty';
 
 const BookingDetails = () => {
   const navigate = useNavigate();
   const { bookingDetails, isBookingDetailsLoading } = useReadBookingDetails();
 
   if (isBookingDetailsLoading) return <Spinner />;
-  if (!bookingDetails) return <Spinner />;
+  if (!bookingDetails) return <Empty resourceName="booking" />;
 
   return (
     <>
@@ -27,7 +28,7 @@ const BookingDetails = () => {
             {bookingDetails?.status}
           </Badge>
         </Wrapper>
-        <ButtonText>&larr; Back</ButtonText>
+        <ButtonText onClick={() => navigate(-1)}>&larr; Back</ButtonText>
       </Wrapper>
 
       <BookingCard booking={bookingDetails} />
