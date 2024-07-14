@@ -5,10 +5,17 @@ import { format, isToday } from 'date-fns';
 import { IBooking } from '../../types/bookings';
 import Modal from '../Modal';
 import DropdownMenu from '../DropdownMenu';
-import { Ellipsis, Eye, SquareArrowOutDownRight, Trash2 } from 'lucide-react';
+import {
+  Ellipsis,
+  Eye,
+  SquareArrowOutDownRight,
+  SquareArrowOutUpRight,
+  Trash2,
+} from 'lucide-react';
 import { formatCurrency, formatDistanceFromNow } from '../../utils/helpers';
 import Badge from '../ui/Badge';
 import { BookingStatus } from '../../utils/constants';
+import { useCheckout } from '../../hooks/bookings';
 
 interface Props {
   booking: IBooking;
@@ -43,6 +50,7 @@ const Amount = styled.div`
 `;
 
 const BookingRow = ({ booking }: Props) => {
+  const { checkout, isCheckingOut } = useCheckout();
   return (
     <>
       <Room>{booking.room.name}</Room>
@@ -94,6 +102,21 @@ const BookingRow = ({ booking }: Props) => {
                     Check in
                   </DropdownMenu.Item>
                 </Link>
+              )}
+
+              {booking.status === BookingStatus.CheckedIn && (
+                <DropdownMenu.Item
+                  icon={<SquareArrowOutUpRight />}
+                  disabled={isCheckingOut}
+                  onClick={() =>
+                    checkout({
+                      bookingId: booking._id,
+                      editedData: { status: BookingStatus.CheckedOut },
+                    })
+                  }
+                >
+                  Check out
+                </DropdownMenu.Item>
               )}
 
               <Modal.Trigger name="delete">
