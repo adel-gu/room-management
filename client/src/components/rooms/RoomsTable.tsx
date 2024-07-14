@@ -4,11 +4,13 @@ import RoomRow from './RoomRow';
 import Spinner from '../Spinner';
 import Pagination from '../Pagination';
 import Table from '../Table';
+import Empty from '../Empty';
 
 const RoomsTable = () => {
   const { rooms, page, pages, total, isRoomsLoading } = useReadAllRooms();
 
   if (isRoomsLoading) return <Spinner />;
+  if (!rooms?.length) return <Empty resourceName="room" />;
 
   return (
     <Table columns="0.6fr 1.8fr 2.2fr repeat(3, 1fr) .1fr">
