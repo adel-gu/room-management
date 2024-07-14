@@ -2,7 +2,7 @@ import {
   BookingFormData,
   GetAllBookingsResType,
   IBooking,
-  ICheckin,
+  ICheckInOut,
 } from '../../types/bookings';
 
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/bookings`;
@@ -49,7 +49,7 @@ export const editBookingRequest = async ({
   editedData,
 }: {
   bookingId: string;
-  editedData: ICheckin;
+  editedData: ICheckInOut;
 }) => {
   const res = await fetch(`${API_BASE_URL}/${bookingId}`, {
     method: 'PATCH',
