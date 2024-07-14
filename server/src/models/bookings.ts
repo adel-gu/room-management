@@ -96,40 +96,40 @@ schema.pre('save', async function (next) {
   next();
 });
 
-// Update room status + guest status (when check-in a booking)
-schema.pre('save', async function (next) {
-  if (this.isModified('status') && !this.isNew) {
-    await mongoose
-      .model(ModelsEnum.Room)
-      .findByIdAndUpdate(this.room, { status: RoomStatus.Occupied });
-    await mongoose
-      .model(ModelsEnum.Guest)
-      .findByIdAndUpdate(this.guest, { status: GuestStatus.CheckedIn });
+schema.post('save', async function (doc, next) {
+  try {
+    if (doc.status === BookingStatus.Pending) {
+      await mongoose
+        .model('Room')
+        .findByIdAndUpdate(this.room, { status: RoomStatus.Reserved });
+      await mongoose
+        .model('Guest')
+        .findByIdAndUpdate(this.guest, { status: GuestStatus.Reserved });
+    }
+
+    if (doc.status === BookingStatus.CheckedIn) {
+      await mongoose
+        .model('Room')
+        .findByIdAndUpdate(this.room, { status: RoomStatus.Occupied });
+      await mongoose
+        .model('Guest')
+        .findByIdAndUpdate(this.guest, { status: GuestStatus.CheckedIn });
+    }
+
+    if (doc.status === BookingStatus.CheckedOut) {
+      await mongoose
+        .model('Room')
+        .findByIdAndUpdate(this.room, { status: RoomStatus.Cleaning });
+      await mongoose
+        .model('Guest')
+        .findByIdAndUpdate(this.guest, { status: GuestStatus.CheckedOut });
+    }
+  } catch (error) {
+    console.error('Error in post-save hook:', error);
   }
+
   next();
 });
-
-schema.pre('save', function (next) {
-  if (this.isNew) {
-    this.wasNew = true;
-  }
-  next();
-});
-
-schema.post('save', async function () {
-  if (this.wasNew) {
-    await mongoose
-      .model(ModelsEnum.Room)
-      .findByIdAndUpdate(this.room, { status: RoomStatus.Reserved });
-    await mongoose
-      .model(ModelsEnum.Guest)
-      .findByIdAndUpdate(this.guest, { status: GuestStatus.Reserved });
-  }
-  this.wasNew = false;
-});
-
-// When deleted update room status
-
 schema.plugin(require('mongoose-autopopulate'));
 
 const Booking = mongoose.model<IBooking, BookingModelType>(
