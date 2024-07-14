@@ -1,4 +1,5 @@
 import { useReadAllGuests } from '../../hooks/guests';
+import Empty from '../Empty';
 import Pagination from '../Pagination';
 import Spinner from '../Spinner';
 import Table from '../Table';
@@ -8,6 +9,7 @@ const GuestsTable = () => {
   const { guests, page, pages, total, isGuestsLoading } = useReadAllGuests();
 
   if (isGuestsLoading) return <Spinner />;
+  if (!guests?.length) return <Empty resourceName="guest" />;
 
   return (
     <Table columns="repeat(3, 1.5fr) repeat(3, 1fr) 0.5fr">
