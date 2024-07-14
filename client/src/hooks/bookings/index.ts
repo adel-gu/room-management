@@ -6,26 +6,27 @@ import {
   readAllBookingsRequest,
   readBookingDetailsRequest,
 } from '../../api/bookings';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { defineRoomFilterQuery } from '../../utils/defineFilters';
 
 export const useReadAllBookings = () => {
-  // const [searchParams] = useSearchParams();
-  // const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
+  const queryClient = useQueryClient();
 
-  // const query = defineRoomFilterQuery(
-  //   'discount',
-  //   searchParams.get('discount'),
-  //   searchParams.get('page'),
-  //   searchParams.get('sort'),
-  // );
+  const query = defineRoomFilterQuery(
+    'status',
+    searchParams.get('status'),
+    searchParams.get('page'),
+    searchParams.get('sort'),
+  );
 
   const {
     data: { data: bookings, page, pages, total } = {},
     isLoading: isBookingsLoading,
     error,
   } = useQuery({
-    queryKey: ['readAllBookings'],
-    queryFn: () => readAllBookingsRequest(''),
+    queryKey: ['readAllBookings', query],
+    queryFn: () => readAllBookingsRequest(query),
   });
 
   if (error) toast.error(error.message);
