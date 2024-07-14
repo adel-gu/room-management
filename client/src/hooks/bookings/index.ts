@@ -31,32 +31,32 @@ export const useReadAllBookings = () => {
 
   if (error) toast.error(error.message);
 
-  // // pre-fetching
-  // if (!!(page && pages) && page < pages) {
-  //   const newQuery = defineRoomFilterQuery(
-  //     'discount',
-  //     searchParams.get('discount'),
-  //     `${page + 1}`,
-  //     searchParams.get('sort'),
-  //   );
-  //   queryClient.prefetchQuery({
-  //     queryKey: ['readAllRooms', newQuery],
-  //     queryFn: () => readAllRoomsRequest(newQuery),
-  //   });
-  // }
+  // pre-fetching
+  if (!!(page && pages) && page < pages) {
+    const newQuery = defineRoomFilterQuery(
+      'status',
+      searchParams.get('status'),
+      `${page + 1}`,
+      searchParams.get('sort'),
+    );
+    queryClient.prefetchQuery({
+      queryKey: ['readAllBookings', newQuery],
+      queryFn: () => readAllBookingsRequest(newQuery),
+    });
+  }
 
-  // if (!!(page && pages) && page > 1) {
-  //   const newQuery = defineRoomFilterQuery(
-  //     'discount',
-  //     searchParams.get('discount'),
-  //     `${page - 1}`,
-  //     searchParams.get('sort'),
-  //   );
-  //   queryClient.prefetchQuery({
-  //     queryKey: ['readAllRooms', newQuery],
-  //     queryFn: () => readAllRoomsRequest(newQuery),
-  //   });
-  // }
+  if (!!(page && pages) && page > 1) {
+    const newQuery = defineRoomFilterQuery(
+      'status',
+      searchParams.get('status'),
+      `${page - 1}`,
+      searchParams.get('sort'),
+    );
+    queryClient.prefetchQuery({
+      queryKey: ['readAllBookings', newQuery],
+      queryFn: () => readAllBookingsRequest(newQuery),
+    });
+  }
 
   return {
     bookings,
