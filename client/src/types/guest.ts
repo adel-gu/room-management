@@ -30,6 +30,7 @@ export const formSchema = z
       .string({
         required_error: 'required field',
       })
+      .min(6, { message: 'Must be at last 6 long character' })
       .trim(),
     status: z.nativeEnum(GuestStatus).optional().default(GuestStatus.Pending),
     email: z.string().optional(),
