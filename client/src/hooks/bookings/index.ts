@@ -122,3 +122,20 @@ export function useCheckin() {
 
   return { checkin, isCheckingIn };
 }
+
+export function useCheckout() {
+  const queryClient = useQueryClient();
+
+  const { mutate: checkout, isPending: isCheckingOut } = useMutation({
+    mutationFn: editBookingRequest,
+
+    onSuccess: (data) => {
+      toast.success(`Booking #${data.id} successfully checked out`);
+      queryClient.invalidateQueries({ queryKey: ['readBookingDetails'] });
+    },
+
+    onError: () => toast.error('There was an error while checking out'),
+  });
+
+  return { checkout, isCheckingOut };
+}
