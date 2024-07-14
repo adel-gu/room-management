@@ -21,10 +21,10 @@ export interface IBooking {
   observations?: string;
 }
 
-export interface ICheckin {
-  status: BookingStatus.CheckedIn;
+export interface ICheckInOut {
+  status: BookingStatus.CheckedIn | BookingStatus.CheckedOut;
   hasBreakfast?: boolean;
-  isPaid: boolean;
+  isPaid?: boolean;
   extraPrice?: number;
 }
 
