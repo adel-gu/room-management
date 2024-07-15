@@ -1,18 +1,21 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import { v2 as cloudinary } from 'cloudinary';
-import { auth } from 'express-openid-connect';
-import { config } from './middlewares/auth0/config';
 
 // Routers
 import appApi from './routes/appApi';
+import authApi from './routes/authApi';
+import auth from './controllers/auth';
+import AppErrorHandler from './utils/appErrorHandler';
+import errorRequestHandler from './utils/errorControllerHandler';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 app.use(morgan('dev'));
-app.use(auth(config));
 
 // Config Cloudinary
 cloudinary.config({
@@ -22,5 +25,16 @@ cloudinary.config({
 });
 
 // App API
-app.use('/api/v1/', appApi);
+app.use('/api/v1/', authApi);
+app.use('/api/v1/', auth.checkAuthToken, appApi);
+
+// Catch errors route
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
+  next(
+    new AppErrorHandler(`can't find ${req.originalUrl} on this server!`, 404),
+  );
+});
+
+app.use(errorRequestHandler);
+
 export default app;
