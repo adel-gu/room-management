@@ -2,6 +2,7 @@ export enum ModelsEnum {
   Room = 'Room',
   Guest = 'Guest',
   Booking = 'Booking',
+  Admin = 'Admin',
 }
 
 export enum RoomStatus {
@@ -28,6 +29,10 @@ export enum BookingStatus {
   CheckedOut = 'CheckedOut',
   Cancelled = 'Cancelled',
   NoShow = 'NoShow',
+}
+
+export enum Roles {
+  admin = 'admin',
 }
 
 export const LIMIT = 10;
