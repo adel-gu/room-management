@@ -12,12 +12,13 @@ interface IAdmin {
   role: Roles;
   tenantId: Types.ObjectId;
   createdAt: Date;
+  isVerified: boolean;
   salt?: string;
   photo?: string;
   passwordConfirm?: string;
   passwordChangedAt?: Date;
-  passwordResetToken?: string;
-  passwordResetExpires?: Date;
+  passwordToken?: string;
+  passwordTokenExpires?: Date;
 }
 
 interface IAdminMethods {
@@ -25,7 +26,7 @@ interface IAdminMethods {
     password: string,
     hashPassword: string,
   ): Promise<boolean>;
-  generateResetToken(): string;
+  generateToken(): string;
   checkIsTokenIssuedAfterPwdChanged(JWTTimestamp: number): boolean;
 }
 
@@ -53,14 +54,19 @@ const schema = new mongoose.Schema<IAdmin, AdminModelType, IAdminMethods>({
     enum: Roles,
     default: Roles.admin,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
   tenantId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     index: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+    select: false,
   },
   photo: String,
   passwordConfirm: {
@@ -74,21 +80,23 @@ const schema = new mongoose.Schema<IAdmin, AdminModelType, IAdminMethods>({
   },
   salt: { type: String, select: false },
   passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
+  passwordToken: String,
+  passwordTokenExpires: Date,
 });
 
 schema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.salt = await bcrypt.genSalt(12);
-  this.password = await bcrypt.hash(this.password + this.salt, this.salt);
-  this.passwordConfirm = undefined;
-  next();
-});
+  if (this.isModified('password') && this.isNew) {
+    this.salt = await bcrypt.genSalt(12);
+    this.password = await bcrypt.hash(this.password + this.salt, this.salt);
+    this.passwordConfirm = undefined;
+    next();
+  }
 
-schema.pre('save', async function (next) {
-  if (this.isModified('password') && this.isNew) return next();
-  this.passwordChangedAt = new Date(Date.now() - 1000);
+  if (this.isModified('password') && !this.isNew) {
+    this.passwordChangedAt = new Date(Date.now() - 1000);
+    next();
+  }
+
   next();
 });
 
@@ -107,13 +115,13 @@ schema.method(
   },
 );
 
-schema.method('generateResetToken', function generateResetToken(): string {
+schema.method('generateToken', function generateToken(): string {
   const resetToken = crypto.randomBytes(32).toString('hex');
-  this.passwordResetToken = crypto
+  this.passwordToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
-  this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000);
+  this.passwordTokenExpires = new Date(Date.now() + 10 * 60 * 1000);
   return resetToken;
 });
 
