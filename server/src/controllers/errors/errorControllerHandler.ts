@@ -1,5 +1,5 @@
 import type { ErrorRequestHandler, Response } from 'express';
-import AppErrorHandler from './appErrorHandler';
+import AppErrorHandler from '../../utils/appErrorHandler';
 
 /* -------------------------------------------------------------------------- */
 /*                        //? Handle Development errors                       */
