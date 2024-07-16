@@ -9,7 +9,7 @@ import appApi from './routes/appApi';
 import authApi from './routes/authApi';
 import auth from './controllers/auth';
 import AppErrorHandler from './utils/appErrorHandler';
-import errorRequestHandler from './utils/errorControllerHandler';
+import errorRequestHandler from './controllers/errors/errorControllerHandler';
 
 const app = express();
 app.use(express.json());
