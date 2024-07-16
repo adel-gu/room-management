@@ -7,9 +7,10 @@ import { v2 as cloudinary } from 'cloudinary';
 // Routers
 import appApi from './routes/appApi';
 import authApi from './routes/authApi';
+import adminApi from './routes/adminApi';
 import auth from './controllers/auth';
 import AppErrorHandler from './utils/appErrorHandler';
-import errorRequestHandler from './controllers/errors/errorControllerHandler';
+import errorRequestHandler from './controllers/errors';
 
 const app = express();
 app.use(express.json());
@@ -27,6 +28,7 @@ cloudinary.config({
 // App API
 app.use('/api/v1/', authApi);
 app.use('/api/v1/', auth.checkAuthToken, appApi);
+app.use('/api/v1', auth.checkAuthToken, adminApi);
 
 // Catch errors route
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
