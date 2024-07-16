@@ -1,13 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
-import Admin from '../../models/admin';
-import setToken from './setToken';
-import catchErrors from '../../utils/catchErrors';
 import mongoose from 'mongoose';
+
+import Admin from '../../models/admin';
+import Email from '../../services/email';
+import catchErrors from '../../utils/catchErrors';
+import AppErrorHandler from '../../utils/appErrorHandler';
 
 const signup = catchErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password, passwordConfirm } = req.body;
-    const admin = await Admin.create({
+    const existedAdmin = await Admin.findOne({ email });
+
+    if (existedAdmin)
+      return next(
+        new AppErrorHandler(
+          'This account is already exist. Please try to login instead',
+          409,
+        ),
+      );
+
+    const admin = new Admin({
       name,
       email,
       password,
@@ -15,7 +27,26 @@ const signup = catchErrors(
       tenantId: new mongoose.Types.ObjectId(),
     });
 
-    setToken(res, admin._id.toString(), 'user sign up successfully');
+    const token = admin.generateToken();
+    await admin.save();
+
+    const url = `${req.protocol}://${req.get('host')}/verify?token=${token}`;
+
+    try {
+      await new Email({ name, email }, url).sendEmailVerification();
+    } catch (error) {
+      return next(
+        new AppErrorHandler(
+          'There was an error while sending the verify account email',
+          500,
+        ),
+      );
+    }
+
+    res.status(201).json({
+      status: 'Success',
+      message: 'A verification account link was sent to your email',
+    });
   },
 );
 
