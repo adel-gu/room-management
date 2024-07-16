@@ -15,6 +15,11 @@ const upload = multer({
 
 router
   .route('/admin/profile')
-  .get(adminController.setMeId, adminController.readMe);
-
+  .get(adminController.setMeId, adminController.readMe)
+  .patch(
+    upload.single('profileImage'),
+    adminController.setMeId,
+    adminController.allowedProfileData,
+    adminController.updateMeProfile,
+  );
 export default router;
