@@ -4,7 +4,10 @@ import mongoose from 'mongoose';
 const readDoc = (model: string) => async (req: Request, res: Response) => {
   try {
     const Model = mongoose.model(model);
-    const doc = await Model.findById(req.params.id);
+    const doc = await Model.findOne({
+      _id: req.params.id,
+      tenantId: req.tenantId,
+    });
 
     if (!doc)
       return res.status(404).json({

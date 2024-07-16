@@ -6,6 +6,7 @@ import uploadImg from '../../utils/uploadImage';
 const createDoc = (model: string) => async (req: Request, res: Response) => {
   try {
     const Model = mongoose.model(model);
+    req.body.tenantId = req.tenantId;
     const doc = new Model(req.body);
 
     if (model === ModelsEnum.Room && req.file) {
