@@ -14,7 +14,7 @@ interface IAdmin {
   createdAt: Date;
   isVerified: boolean;
   salt?: string;
-  photo?: string;
+  image?: string;
   passwordConfirm?: string;
   passwordChangedAt?: Date;
   passwordToken?: string;
@@ -58,6 +58,7 @@ const schema = new mongoose.Schema<IAdmin, AdminModelType, IAdminMethods>({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     index: true,
+    immutable: true,
   },
   createdAt: {
     type: Date,
@@ -68,7 +69,7 @@ const schema = new mongoose.Schema<IAdmin, AdminModelType, IAdminMethods>({
     default: false,
     select: false,
   },
-  photo: String,
+  image: String,
   passwordConfirm: {
     type: String,
     required: [true, 'Confirm Password field is required'],
