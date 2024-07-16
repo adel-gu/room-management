@@ -4,7 +4,10 @@ import mongoose from 'mongoose';
 const deleteDoc = (model: string) => async (req: Request, res: Response) => {
   try {
     const Model = mongoose.model(model);
-    const doc = await Model.findByIdAndDelete(req.params.id);
+    const doc = await Model.findOneAndDelete({
+      _id: req.params.id,
+      tenantId: req.tenantId,
+    });
 
     if (!doc)
       return res.status(404).json({
