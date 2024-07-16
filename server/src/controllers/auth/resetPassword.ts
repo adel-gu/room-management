@@ -1,5 +1,5 @@
-import crypto from 'crypto';
 import { NextFunction, Request, Response } from 'express';
+import crypto from 'crypto';
 import Admin from '../../models/admin';
 import setToken from './setToken';
 import catchErrors from '../../utils/catchErrors';
@@ -11,8 +11,8 @@ const resetPassword = catchErrors(
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const admin = await Admin.findOne({
-      passwordResetToken: hashedToken,
-      passwordResetExpires: { $gt: Date.now() },
+      passwordToken: hashedToken,
+      passwordTokenExpires: { $gt: Date.now() },
     });
 
     if (!admin)
@@ -20,8 +20,8 @@ const resetPassword = catchErrors(
 
     admin.password = req.body.password;
     admin.passwordConfirm = req.body.passwordConfirm;
-    admin.passwordResetToken = undefined;
-    admin.passwordResetExpires = undefined;
+    admin.passwordToken = undefined;
+    admin.passwordTokenExpires = undefined;
 
     await admin.save();
 
