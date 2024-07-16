@@ -1,8 +1,10 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
+import catchErrors from '../../utils/catchErrors';
+import AppErrorHandler from '../../utils/appErrorHandler';
 
-const readDoc = (model: string) => async (req: Request, res: Response) => {
-  try {
+const readDoc = (model: string) =>
+  catchErrors(async (req: Request, res: Response, next: NextFunction) => {
     const Model = mongoose.model(model);
     const doc = await Model.findOne({
       _id: req.params.id,
@@ -10,16 +12,11 @@ const readDoc = (model: string) => async (req: Request, res: Response) => {
     });
 
     if (!doc)
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Document with that ID is not found',
-      });
+      return next(
+        new AppErrorHandler('Document with that ID is not found', 404),
+      );
 
     res.status(201).json({ status: 'success', data: doc });
-  } catch (error) {
-    console.log('ERROR 💥:', error);
-    res.status(500).json({ status: 'error', message: 'Server Error' });
-  }
-};
+  });
 
 export default readDoc;

@@ -1,10 +1,12 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { ModelsEnum } from '../../utils/constants';
 import uploadImg from '../../utils/uploadImage';
+import catchErrors from '../../utils/catchErrors';
+import AppErrorHandler from '../../utils/appErrorHandler';
 
-const createDoc = (model: string) => async (req: Request, res: Response) => {
-  try {
+const createDoc = (model: string) =>
+  catchErrors(async (req: Request, res: Response, next: NextFunction) => {
     const Model = mongoose.model(model);
     req.body.tenantId = req.tenantId;
     const doc = new Model(req.body);
@@ -16,15 +18,11 @@ const createDoc = (model: string) => async (req: Request, res: Response) => {
     await doc.save();
 
     if (!doc)
-      return res
-        .status(500)
-        .json({ status: 'failed', message: 'Something went wrong' });
+      return next(
+        new AppErrorHandler('Error occurred while creating new document', 500),
+      );
 
     res.status(201).json({ status: 'success', data: doc });
-  } catch (error) {
-    console.log('ERROR 💥:', error);
-    res.status(500).json({ status: 'error', message: 'Server Error' });
-  }
-};
+  });
 
 export default createDoc;

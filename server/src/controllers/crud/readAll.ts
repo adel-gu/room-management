@@ -1,10 +1,11 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import QueryHelper from '../../utils/queryHelper';
 import { LIMIT } from '../../utils/constants';
+import catchErrors from '../../utils/catchErrors';
 
-const readAllDoc = (model: string) => async (req: Request, res: Response) => {
-  try {
+const readAllDoc = (model: string) =>
+  catchErrors(async (req: Request, res: Response, next: NextFunction) => {
     const Model = mongoose.model(model);
     const page = req.query.page ? parseInt(req.query.page as string) : 1;
 
@@ -32,10 +33,6 @@ const readAllDoc = (model: string) => async (req: Request, res: Response) => {
     };
 
     res.status(200).json({ status: 'success', data: pagination });
-  } catch (error) {
-    console.log('ERROR 💥:', error);
-    res.status(500).json({ status: 'error', message: 'Server Error' });
-  }
-};
+  });
 
 export default readAllDoc;
