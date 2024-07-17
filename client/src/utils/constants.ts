@@ -23,3 +23,7 @@ export enum BookingStatus {
   Cancelled = 'Cancelled',
   NoShow = 'NoShow',
 }
+
+export enum Roles {
+  admin = 'admin',
+}
