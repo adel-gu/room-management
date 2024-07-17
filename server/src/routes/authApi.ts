@@ -10,4 +10,6 @@ router.route('/forgot-password').post(auth.forgotPassword);
 router.route('/reset-password/:token').patch(auth.resetPassword);
 router.route('/logout').post(auth.checkAuthToken, auth.logout);
 
+router.get('/validate-auth', auth.checkAuthToken, auth.validateAuth);
+
 export default router;
