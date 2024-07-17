@@ -4,6 +4,7 @@ import {
   loginRequest,
   logoutRequest,
   validateAuthRequest,
+  registerRequest,
 } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,6 +40,23 @@ export const useLogout = () => {
   });
 
   return { logout, isLogoutLoading };
+};
+
+export const useRegister = () => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate: register, isPending: isRegisterLoading } = useMutation({
+    mutationKey: ['register'],
+    mutationFn: registerRequest,
+    onSuccess: async () => {
+      toast.success('Admin registered successfully');
+      await queryClient.invalidateQueries({ queryKey: ['validateAuth'] });
+      navigate('/verification');
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  return { register, isRegisterLoading };
 };
 
 export const useValidateAuth = () => {
