@@ -1,23 +1,19 @@
 import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { useLogin } from '../../hooks/auth';
+import { loginFormSchema, LoginData } from '../../types/Admin';
 
 import Form from '../ui/Form';
 import Input from '../ui/Input';
+import Button from '../ui/Button';
 import FormRowVertical from '../FormRowVertical';
 import Spinner from '../Spinner';
-import Button from '../ui/Button';
-import { formSchema, LoginData } from '../../types/Admin';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useLogin } from '../../hooks/auth';
-import styled from 'styled-components';
-
-const StyledSpinnerContainer = styled.div`
-  width: fit-content;
-  margin-inline: auto;
-`;
+import SpinnerContainer from '../ui/SpinnerContainer';
 
 const LoginForm = () => {
   const form = useForm<LoginData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: 'coco@gamil.com',
       password: '12345678',
@@ -55,9 +51,9 @@ const LoginForm = () => {
             {!isLoginLoading ? (
               'Log in'
             ) : (
-              <StyledSpinnerContainer>
+              <SpinnerContainer>
                 <Spinner size="sm" color="secondary" />
-              </StyledSpinnerContainer>
+              </SpinnerContainer>
             )}
           </Button>
         </FormRowVertical>
