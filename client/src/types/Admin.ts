@@ -38,3 +38,11 @@ export const registerFormSchema = z
     message: 'Passwords do not match',
     path: ['passwordConfirm'],
   });
+
+export type registerData = z.infer<typeof registerFormSchema>;
+
+export const verificationFormSchema = z.object({
+  token: z.string().min(6, 'Token must be at least 6 characters long'),
+});
+
+export type verificationData = z.infer<typeof verificationFormSchema>;
