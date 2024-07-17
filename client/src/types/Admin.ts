@@ -20,9 +20,21 @@ export interface IAdmin {
   passwordTokenExpires?: Date;
 }
 
-export const formSchema = z.object({
+export const loginFormSchema = z.object({
   email: z.string().refine(validator.isEmail),
   password: z.string(),
 });
 
-export type LoginData = z.infer<typeof formSchema>;
+export type LoginData = z.infer<typeof loginFormSchema>;
+
+export const registerFormSchema = z
+  .object({
+    name: z.string().min(3, { message: 'Please enter your name' }),
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters long'),
+    passwordConfirm: z.string(),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'Passwords do not match',
+    path: ['passwordConfirm'],
+  });
