@@ -19,6 +19,8 @@ interface IAdmin {
   passwordChangedAt?: Date;
   passwordToken?: string;
   passwordTokenExpires?: Date;
+  verificationCode?: string;
+  verificationCodeExpires?: Date;
 }
 
 interface IAdminMethods {
@@ -27,6 +29,7 @@ interface IAdminMethods {
     hashPassword: string,
   ): Promise<boolean>;
   generateToken(): string;
+  generateVerificationToken(): string;
   checkIsTokenIssuedAfterPwdChanged(JWTTimestamp: number): boolean;
 }
 
@@ -83,6 +86,8 @@ const schema = new mongoose.Schema<IAdmin, AdminModelType, IAdminMethods>({
   passwordChangedAt: Date,
   passwordToken: String,
   passwordTokenExpires: Date,
+  verificationCode: String,
+  verificationCodeExpires: Date,
 });
 
 schema.pre('save', async function (next) {
@@ -125,6 +130,18 @@ schema.method('generateToken', function generateToken(): string {
   this.passwordTokenExpires = new Date(Date.now() + 10 * 60 * 1000);
   return resetToken;
 });
+
+schema.method(
+  'generateVerificationToken',
+  function generateVerificationToken(): string {
+    const verificationCode = Math.floor(
+      100000 + Math.random() * 900000,
+    ).toString();
+    this.verificationCode = verificationCode;
+    this.verificationCodeExpires = new Date(Date.now() + 5 * 60 * 1000);
+    return verificationCode;
+  },
+);
 
 schema.method(
   'checkIsTokenIssuedAfterPwdChanged',

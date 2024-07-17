@@ -27,13 +27,11 @@ const signup = catchErrors(
       tenantId: new mongoose.Types.ObjectId(),
     });
 
-    const token = admin.generateToken();
+    const token = admin.generateVerificationToken();
     await admin.save();
 
-    const url = `${req.protocol}://${req.get('host')}/verify?token=${token}`;
-
     try {
-      await new Email({ name, email }, url).sendEmailVerification();
+      await new Email({ name, email }, token).sendEmailVerification();
     } catch (error) {
       return next(
         new AppErrorHandler(
