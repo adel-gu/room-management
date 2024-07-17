@@ -1,24 +1,19 @@
-import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Heading from '../components/ui/Heading';
+import LoginRegisterContainer from '../components/ui/LoginRegisterContainer';
 import LoginForm from '../components/Auth/LoginForm';
-
-const StyledLogin = styled.div`
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: auto;
-  align-content: center;
-  justify-content: center;
-  gap: 3.2rem;
-  background-color: var(--color-grey-50);
-`;
 
 const Login = () => {
   return (
-    <StyledLogin>
+    <LoginRegisterContainer>
       <Heading as="h4">Log in to your account</Heading>
 
       <LoginForm />
-    </StyledLogin>
+
+      <span>
+        Don't have an account? <Link to="/register">Register</Link>
+      </span>
+    </LoginRegisterContainer>
   );
 };
 export default Login;
