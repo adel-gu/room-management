@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 interface HeadingProps {
   as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  primary?: boolean;
 }
 
 const Heading = styled.h1<HeadingProps>`
@@ -34,6 +35,12 @@ const Heading = styled.h1<HeadingProps>`
       font-size: 3rem;
       font-weight: 600;
       text-align: center;
+    `}
+
+    ${(props) =>
+    props.primary &&
+    css`
+      color: var(--color-brand-700);
     `}
 `;
 export default Heading;
