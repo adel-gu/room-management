@@ -30,11 +30,11 @@ router
 /*                              Admin Management                              */
 /* -------------------------------------------------------------------------- */
 router
-  .route('/users')
+  .route('/admins')
   .get(adminController.readAll)
   .post(upload.single('profileImage'), adminController.create);
 router
-  .route('/users/:id')
+  .route('/admins/:id')
   .get(adminController.read)
   .patch(upload.single('profileImage'), adminController.update)
   .delete(adminController.delete);
