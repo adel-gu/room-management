@@ -13,13 +13,30 @@ const upload = multer({
   },
 });
 
+/* -------------------------------------------------------------------------- */
+/*                             Account management                             */
+/* -------------------------------------------------------------------------- */
 router
-  .route('/admin/profile')
-  .get(adminController.setMeId, adminController.readMe)
+  .route('/profile')
+  .get(adminController.setMeId, adminController.read)
   .patch(
     upload.single('profileImage'),
     adminController.setMeId,
     adminController.allowedProfileData,
-    adminController.updateMeProfile,
+    adminController.update,
   );
+
+/* -------------------------------------------------------------------------- */
+/*                              Admin Management                              */
+/* -------------------------------------------------------------------------- */
+router
+  .route('/users')
+  .get(adminController.readAll)
+  .post(upload.single('profileImage'), adminController.create);
+router
+  .route('/users/:id')
+  .get(adminController.read)
+  .patch(upload.single('profileImage'), adminController.update)
+  .delete(adminController.delete);
+
 export default router;
