@@ -9,11 +9,19 @@ import Users from './pages/Users';
 import Settings from './pages/Settings';
 import Account from './pages/Account';
 import Guests from './pages/Guests';
+import ProtectedLayout from './layouts/ProtectedLayout';
+import Login from './pages/Login';
 
 const App = () => {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
+      <Route
+        element={
+          <ProtectedLayout>
+            <AppLayout />
+          </ProtectedLayout>
+        }
+      >
         <Route path="/" element={<Dashboard />} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/bookings/:bookingId" element={<Booking />} />
@@ -24,6 +32,8 @@ const App = () => {
         <Route path="/settings" element={<Settings />} />
         <Route path="/account" element={<Account />} />
       </Route>
+      <Route path="register" element={<span>Register</span>} />
+      <Route path="login" element={<Login />} />
     </Routes>
   );
 };
