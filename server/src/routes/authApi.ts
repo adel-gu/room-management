@@ -4,7 +4,7 @@ import auth from '../controllers/auth';
 const router = express.Router();
 
 router.route('/signup').post(auth.signup);
-router.route('/verify').get(auth.verifyAccount);
+router.route('/verify').post(auth.verifyAccount);
 router.route('/login').post(auth.login);
 router.route('/forgot-password').post(auth.forgotPassword);
 router.route('/reset-password/:token').patch(auth.resetPassword);
