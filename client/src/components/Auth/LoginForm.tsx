@@ -8,6 +8,12 @@ import Button from '../ui/Button';
 import { formSchema, LoginData } from '../../types/Admin';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLogin } from '../../hooks/auth';
+import styled from 'styled-components';
+
+const StyledSpinnerContainer = styled.div`
+  width: fit-content;
+  margin-inline: auto;
+`;
 
 const LoginForm = () => {
   const form = useForm<LoginData>({
@@ -46,7 +52,13 @@ const LoginForm = () => {
 
         <FormRowVertical>
           <Button size="lg" disabled={isLoginLoading}>
-            {!isLoginLoading ? 'Log in' : <Spinner size="sm" />}
+            {!isLoginLoading ? (
+              'Log in'
+            ) : (
+              <StyledSpinnerContainer>
+                <Spinner size="sm" color="secondary" />
+              </StyledSpinnerContainer>
+            )}
           </Button>
         </FormRowVertical>
       </Form>
