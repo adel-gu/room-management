@@ -11,7 +11,10 @@ const createDoc = (model: string) =>
     req.body.tenantId = req.tenantId;
     const doc = new Model(req.body);
 
-    if (model === ModelsEnum.Room && req.file) {
+    if (
+      [`${ModelsEnum.Room}`, `${ModelsEnum.Admin}`].includes(model) &&
+      req.file
+    ) {
       doc.image = await uploadImg(req.file);
     }
 
