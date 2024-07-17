@@ -12,6 +12,8 @@ import Guests from './pages/Guests';
 import ProtectedLayout from './layouts/ProtectedLayout';
 import Login from './pages/Login';
 import PublicLayout from './layouts/PublicLayout';
+import Register from './pages/Register';
+import AccountVerification from './pages/AccountVerification';
 
 const App = () => {
   return (
@@ -34,7 +36,7 @@ const App = () => {
         <Route path="/account" element={<Account />} />
       </Route>
       <Route element={<PublicLayout />}>
-        <Route path="register" element={<span>Register</span>} />
+        <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
       </Route>
     </Routes>
