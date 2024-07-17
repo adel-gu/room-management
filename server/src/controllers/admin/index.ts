@@ -8,9 +8,13 @@ const createAdminController = () => {
 
   let meMethods = {
     setMeId: setMeId,
-    readMe: CRUDController.read,
     allowedProfileData: setAllowedUpdateData,
-    updateMeProfile: CRUDController.update,
+
+    create: CRUDController.create,
+    readAll: CRUDController.readAll,
+    read: CRUDController.read,
+    update: CRUDController.update,
+    delete: CRUDController.delete,
   };
   return meMethods;
 };
