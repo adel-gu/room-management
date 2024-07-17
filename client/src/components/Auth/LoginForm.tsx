@@ -14,10 +14,6 @@ import SpinnerContainer from '../ui/SpinnerContainer';
 const LoginForm = () => {
   const form = useForm<LoginData>({
     resolver: zodResolver(loginFormSchema),
-    defaultValues: {
-      email: 'coco@gamil.com',
-      password: '12345678',
-    },
   });
   const { login, isLoginLoading } = useLogin();
 
