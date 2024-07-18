@@ -51,4 +51,5 @@ router
 
 // Stats
 router.route('/dashboard').get(dashboard.getStats);
+router.route('/today-activities').get(dashboard.getTodayActivities);
 export default router;
