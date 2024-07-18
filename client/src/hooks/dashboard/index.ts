@@ -12,3 +12,12 @@ export const useReadStats = () => {
 
   return { stats, isStatsLoading };
 };
+
+export const useReadTodayActivities = () => {
+  const { data: activities, isLoading: isActivitiesLoading } = useQuery({
+    queryKey: ['readTodayActivities'],
+    queryFn: () => readTodayActivitiesRequest(),
+  });
+
+  return { activities, isActivitiesLoading };
+};
