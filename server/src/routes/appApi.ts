@@ -3,6 +3,7 @@ import multer from 'multer';
 import roomController from '../controllers/room';
 import guestsController from '../controllers/guests';
 import bookingController from '../controllers/bookings';
+import dashboard from '../controllers/dashboard';
 
 const router = express.Router();
 
@@ -48,4 +49,6 @@ router
   .patch(bookingController.update)
   .delete(bookingController.delete);
 
+// Stats
+router.route('/dashboard').get(dashboard.getStats);
 export default router;
