@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { ModelsEnum, RoomStatus } from '../utils/constants';
 
 export interface IRoom {
@@ -9,6 +9,7 @@ export interface IRoom {
   discount?: number;
   description?: string;
   image?: string;
+  tenantId: Types.ObjectId;
   createdAt: Date;
 }
 
@@ -38,6 +39,12 @@ const schema = new mongoose.Schema<IRoom, RoomModelType>({
     enum: RoomStatus,
     default: RoomStatus.Available,
     required: [true, 'A room must have a status'],
+  },
+  tenantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    index: true,
+    immutable: true,
   },
   description: String,
   image: String,
