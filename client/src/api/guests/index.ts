@@ -5,7 +5,9 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/guests`;
 export const readAllGuestsRequest = async (
   query: string,
 ): Promise<GetAllGuestsResType> => {
-  const res = await fetch(`${API_BASE_URL}${query}`);
+  const res = await fetch(`${API_BASE_URL}${query}`, {
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Error Fetching guests!');
   const { data } = await res.json();
 
@@ -17,6 +19,7 @@ export const createNewGuestRequest = async (
 ): Promise<IGuest> => {
   const res = await fetch(API_BASE_URL, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
     },
@@ -32,6 +35,7 @@ export const createNewGuestRequest = async (
 export const deleteGuestRequest = async (guestId: string) => {
   const res = await fetch(`${API_BASE_URL}/${guestId}`, {
     method: 'DELETE',
+    credentials: 'include',
   });
 
   if (!res.ok) throw new Error('Failed to delete guest');
@@ -49,6 +53,7 @@ export const editGuestRequest = async ({
 }) => {
   const res = await fetch(`${API_BASE_URL}/${guestId}`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
     },

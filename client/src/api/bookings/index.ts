@@ -10,7 +10,9 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/bookings`;
 export const readAllBookingsRequest = async (
   query: string,
 ): Promise<GetAllBookingsResType> => {
-  const res = await fetch(`${API_BASE_URL}${query}`);
+  const res = await fetch(`${API_BASE_URL}${query}`, {
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Error Fetching bookings!');
   const { data } = await res.json();
 
@@ -20,7 +22,9 @@ export const readAllBookingsRequest = async (
 export const readBookingDetailsRequest = async (
   bookingId: string,
 ): Promise<IBooking> => {
-  const res = await fetch(`${API_BASE_URL}/${bookingId}`);
+  const res = await fetch(`${API_BASE_URL}/${bookingId}`, {
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Error Fetching booking!');
   const { data } = await res.json();
 
@@ -32,6 +36,7 @@ export const createNewBookingRequest = async (
 ): Promise<IBooking> => {
   const res = await fetch(API_BASE_URL, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
     },
@@ -53,6 +58,7 @@ export const editBookingRequest = async ({
 }) => {
   const res = await fetch(`${API_BASE_URL}/${bookingId}`, {
     method: 'PATCH',
+    credentials: 'include',
     headers: {
       'content-type': 'application/json',
     },

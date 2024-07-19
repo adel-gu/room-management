@@ -5,7 +5,9 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/rooms`;
 export const readAllRoomsRequest = async (
   query: string,
 ): Promise<GetAllRoomsResType> => {
-  const res = await fetch(`${API_BASE_URL}${query}`);
+  const res = await fetch(`${API_BASE_URL}${query}`, {
+    credentials: 'include',
+  });
   if (!res.ok) throw new Error('Error Fetching rooms!');
   const { data } = await res.json();
 
@@ -15,6 +17,7 @@ export const readAllRoomsRequest = async (
 export const createNewRoomRequest = async (room: FormData) => {
   const res = await fetch(API_BASE_URL, {
     method: 'POST',
+    credentials: 'include',
     body: room,
   });
 
@@ -27,6 +30,7 @@ export const createNewRoomRequest = async (room: FormData) => {
 export const deleteRoomRequest = async (roomId: string) => {
   const res = await fetch(`${API_BASE_URL}/${roomId}`, {
     method: 'DELETE',
+    credentials: 'include',
   });
 
   if (!res.ok) throw new Error('Failed to delete room');
@@ -38,6 +42,7 @@ export const deleteRoomRequest = async (roomId: string) => {
 export const editRoomRequest = async ({ roomId, editedData }: EditReqType) => {
   const res = await fetch(`${API_BASE_URL}/${roomId}`, {
     method: 'PATCH',
+    credentials: 'include',
     body: editedData,
   });
 
