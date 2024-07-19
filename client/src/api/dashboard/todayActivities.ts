@@ -7,7 +7,7 @@ export const readTodayActivitiesRequest = async (): Promise<
 > => {
   const res = await fetch(API_BASE_URL, { credentials: 'include' });
 
-  if (!res.ok) throw new Error('Error while calculating stats');
+  if (!res.ok) throw new Error("Error while calculating today's activities");
   const {
     data: { guests },
   } = await res.json();
