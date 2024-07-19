@@ -1,4 +1,4 @@
-import mongoose, { Types, Model, Query, Document } from 'mongoose';
+import mongoose, { Types, Model } from 'mongoose';
 import {
   ModelsEnum,
   RoomStatus,
@@ -17,6 +17,7 @@ interface IBooking {
   hasBreakfast: boolean;
   isPaid: boolean;
   createdAt: Date;
+  tenantId: Types.ObjectId;
   roomPrice?: number;
   totalPrice?: number;
   numNights?: number;
@@ -53,6 +54,12 @@ const schema = new mongoose.Schema<IBooking>({
   hasBreakfast: {
     type: Boolean,
     required: [true, 'Has breakfast field is required!'],
+  },
+  tenantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    index: true,
+    immutable: true,
   },
   isPaid: { type: Boolean, required: [true, 'Is paid field is required!'] },
   createdAt: { type: Date, default: Date.now() },

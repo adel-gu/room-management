@@ -1,4 +1,4 @@
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import validator from 'validator';
 import { GuestStatus, ModelsEnum } from '../utils/constants';
 
@@ -9,6 +9,7 @@ interface IGuest {
   nationalID: string;
   createdAt: Date;
   status: GuestStatus;
+  tenantId: Types.ObjectId;
   email?: string;
 }
 
@@ -41,6 +42,12 @@ const schema = new mongoose.Schema<IGuest, GuestModelType>({
   createdAt: {
     type: Date,
     default: Date.now(),
+    immutable: true,
+  },
+  tenantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    index: true,
     immutable: true,
   },
   status: {
