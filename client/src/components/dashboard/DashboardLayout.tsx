@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { useReadStats } from '../../hooks/dashboard';
+
 import Spinner from '../Spinner';
 import Stats from './Stats';
 import SalesChart from './SalesChart';
 import TodayActivities from './TodayActivities';
+import DurationChart from './DurationChart';
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -21,7 +23,7 @@ const DashboardLayout = () => {
     <StyledDashboardLayout>
       <Stats stats={stats} />
       <TodayActivities />
-      <div>Chart stay duration</div>
+      <DurationChart />
       <SalesChart />
     </StyledDashboardLayout>
   );
