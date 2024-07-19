@@ -13,3 +13,14 @@ export interface ITodayActivity {
   status: string;
   numNights: number;
 }
+
+export interface IStaysNights {
+  numBookings: number;
+  numNights: number;
+}
+
+export type StartData = {
+  numNights: string;
+  numBookings: number;
+  color: string;
+};
