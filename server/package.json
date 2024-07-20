@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "pnpm install && npx tsc",
-    "start": "node dist/server.js"
+    "start": "node public/server.js"
   },
   "keywords": [],
   "author": "",
