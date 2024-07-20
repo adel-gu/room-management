@@ -14,7 +14,6 @@ import Textarea from '../ui/Textarea';
 
 import { useReadAllRooms } from '../../hooks/rooms';
 import { useReadAllGuests } from '../../hooks/guests';
-import styled from 'styled-components';
 import AutoCompleteInput from '../AutoCompleteInput';
 import AutoCompleteInputItem from '../AutoCompleteInputItem';
 import { useCreateNewBooking } from '../../hooks/bookings';
@@ -26,7 +25,7 @@ interface Props {
   booking?: IBooking;
 }
 
-const BookingForm = ({ handleclose, booking }: Props) => {
+const BookingForm = ({ handleclose }: Props) => {
   const form = useForm<BookingFormData>({
     resolver: zodResolver(formSchema),
   });
@@ -35,7 +34,6 @@ const BookingForm = ({ handleclose, booking }: Props) => {
   const { rooms } = useReadAllRooms(`&status=${RoomStatus.Available}`);
   const { guests } = useReadAllGuests(`&status[ne]=${GuestStatus.CheckedIn}`);
 
-  const disabledBtn = false;
   const isEditing = false;
 
   const hasBreakfast = form.watch('hasBreakfast');
