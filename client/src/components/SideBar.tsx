@@ -47,7 +47,7 @@ const navLinks = [
   },
   {
     title: 'Admins',
-    path: '/Admins',
+    path: '/admins',
     icon: <Users />,
   },
   {
