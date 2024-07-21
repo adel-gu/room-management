@@ -46,8 +46,8 @@ const navLinks = [
     icon: <Bed />,
   },
   {
-    title: 'Users',
-    path: '/users',
+    title: 'Admins',
+    path: '/admins',
     icon: <Users />,
   },
   {

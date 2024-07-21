@@ -5,7 +5,7 @@ import Bookings from './pages/Bookings';
 import Booking from './pages/Booking';
 import Checkin from './pages/Checkin';
 import Rooms from './pages/Rooms';
-import Users from './pages/Users';
+import Admins from './pages/Admins';
 import Settings from './pages/Settings';
 import Account from './pages/Account';
 import Guests from './pages/Guests';
@@ -31,7 +31,7 @@ const App = () => {
         <Route path="checkin/:bookingId" element={<Checkin />} />
         <Route path="/guests" element={<Guests />} />
         <Route path="/rooms" element={<Rooms />} />
-        <Route path="/users" element={<Users />} />
+        <Route path="/admins" element={<Admins />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/account" element={<Account />} />
       </Route>
