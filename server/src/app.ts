@@ -18,7 +18,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.CLIENT_BASE_URL,
+    origin:
+      process.env.CLIENT_BASE_URL ?? 'https://room-management-gold.vercel.app',
     credentials: true,
   }),
 );
