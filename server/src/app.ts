@@ -16,13 +16,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: process.env.CLIENT_BASE_URL,
-    credentials: true,
-  }),
-);
-app.use(morgan('dev'));
 
 // Config Cloudinary
 cloudinary.config({
@@ -30,6 +23,16 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Set cors
+app.use(
+  cors({
+    origin:
+      process.env.CLIENT_BASE_URL ?? 'https://room-management-gold.vercel.app',
+    credentials: true,
+  }),
+);
+app.use(morgan('dev'));
 
 // App API
 app.use('/api/v1/', authApi);
