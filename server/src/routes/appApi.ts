@@ -53,4 +53,5 @@ router
 router.route('/dashboard').get(dashboard.getStats);
 router.route('/today-activities').get(dashboard.getTodayActivities);
 router.route('/stays-nights').get(dashboard.getStaysNights);
+router.route('/sales').get(dashboard.getSales);
 export default router;
