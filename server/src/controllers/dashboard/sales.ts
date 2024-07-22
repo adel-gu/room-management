@@ -10,7 +10,7 @@ const getSales = catchErrors(
 
     const filter = getPeriod(queryDate);
 
-    const [result] = await Booking.aggregate([
+    const result = await Booking.aggregate([
       {
         $match: {
           createdAt: { $gte: filter.date },
@@ -22,12 +22,20 @@ const getSales = catchErrors(
       {
         $group: {
           _id: '$createdAt',
-          totalSales: {
-            $sum: { $ifNull: ['$totalPrice', 0] },
-          },
           extraSales: {
             $sum: { $ifNull: ['$extraPrice', 0] },
           },
+          totalSales: {
+            $sum: { $ifNull: ['$totalPrice', 0] },
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          date: '$_id',
+          extraSales: 1,
+          totalSales: 1,
         },
       },
     ]);
