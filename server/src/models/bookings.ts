@@ -103,6 +103,16 @@ schema.pre('save', async function (next) {
   next();
 });
 
+schema.pre('save', async function (next) {
+  if (this.isNew) return next();
+
+  if (this.isModified('extraPrice')) {
+    this.totalPrice = (this.totalPrice as number) + (this.extraPrice ?? 0);
+  }
+
+  next();
+});
+
 schema.post('save', async function (doc, next) {
   try {
     if (doc.status === BookingStatus.Pending) {
@@ -137,6 +147,7 @@ schema.post('save', async function (doc, next) {
 
   next();
 });
+
 schema.plugin(require('mongoose-autopopulate'));
 
 const Booking = mongoose.model<IBooking, BookingModelType>(
