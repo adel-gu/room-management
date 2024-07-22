@@ -19,6 +19,12 @@ export interface IStaysNights {
   numNights: number;
 }
 
+export interface ISales {
+  date: string;
+  extraSales: number;
+  totalSales: number;
+}
+
 export type StartData = {
   numNights: string;
   numBookings: number;
