@@ -3,6 +3,7 @@ import {
   readStatsRequest,
   readStaysNightsRequest,
   readTodayActivitiesRequest,
+  readSalesRequest,
 } from '../../api/dashboard';
 
 export const useReadStats = () => {
@@ -30,4 +31,13 @@ export const useReadStaysNights = () => {
   });
 
   return { staysNights, isStaysNightsLoading };
+};
+
+export const useReadSales = () => {
+  const { data: sales, isLoading: isSalesLoading } = useQuery({
+    queryKey: ['readSales'],
+    queryFn: () => readSalesRequest(),
+  });
+
+  return { sales, isSalesLoading };
 };
