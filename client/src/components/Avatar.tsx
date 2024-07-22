@@ -1,10 +1,5 @@
+import { useGetCurrentAdmin } from '../hooks/admins';
 import styled from 'styled-components';
-
-interface Props {
-  UserName: string;
-  profileImageUrl: string;
-}
-
 const StyledAvatar = styled.div`
   display: flex;
   align-items: center;
@@ -25,19 +20,23 @@ const AvatarImg = styled.img`
   outline: 2px solid var(--color-gray-100);
 `;
 
-const Avatar = ({ UserName, profileImageUrl }: Props) => {
+const Avatar = () => {
+  const { admin } = useGetCurrentAdmin();
   const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/profile`;
 
-  const fallbackAvatarImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(UserName)}&background=random`;
 
-  const imageUrl = profileImageUrl 
-    ? `${API_BASE_URL}/${profileImageUrl}` 
+  if (!admin) return null;
+
+  const fallbackAvatarImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin.name)}&background=random`;
+
+  const imageUrl = admin.image 
+    ? `${API_BASE_URL}/${admin.image}` 
     : fallbackAvatarImg;
 
   return (
     <StyledAvatar>
-      <AvatarImg src={imageUrl} alt={`Avatar for ${UserName}`} />
-      <span>{UserName}</span>
+      <AvatarImg src={imageUrl} alt={`Avatar for ${admin.name}`} />
+      <span>{admin.name}</span>
     </StyledAvatar>
   );
 };
