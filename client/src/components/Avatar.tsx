@@ -1,5 +1,8 @@
 import { useGetCurrentAdmin } from '../hooks/admins';
 import styled from 'styled-components';
+import Spinner from './Spinner';
+import SpinnerContainer from './ui/SpinnerContainer';
+
 const StyledAvatar = styled.div`
   display: flex;
   align-items: center;
@@ -21,22 +24,27 @@ const AvatarImg = styled.img`
 `;
 
 const Avatar = () => {
-  const { admin } = useGetCurrentAdmin();
-  const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/profile`;
+  const { admin, isAdminLoading } = useGetCurrentAdmin();
 
+  const fallbackAvatarImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin?.name ?? '')}&background=random`;
 
-  if (!admin) return null;
-
-  const fallbackAvatarImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin.name)}&background=random`;
-
-  const imageUrl = admin.image 
-    ? `${API_BASE_URL}/${admin.image}` 
+  const imageUrl = admin?.image
+    ? admin.image
     : fallbackAvatarImg;
 
   return (
     <StyledAvatar>
-      <AvatarImg src={imageUrl} alt={`Avatar for ${admin.name}`} />
-      <span>{admin.name}</span>
+      {isAdminLoading ? (
+          <SpinnerContainer>
+           <Spinner size="sm" />
+          </SpinnerContainer>
+
+      ):  (
+        <>
+          <AvatarImg src={imageUrl} alt={`Avatar for ${admin?.name}`} />
+          <span>{admin?.name}</span>
+        </>
+      )}
     </StyledAvatar>
   );
 };
