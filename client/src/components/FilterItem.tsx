@@ -38,7 +38,10 @@ const StyledFilterItem = styled.button<StyledProps>`
 const FilterItem = ({ item, field }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const currentFilter = searchParams.get(field) || 'all';
+  let currentFilter =
+    field === 'last'
+      ? searchParams.get(field) ?? '7'
+      : searchParams.get(field) ?? 'all';
 
   const handleClick = () => {
     searchParams.set(field, `${item.value}`);
