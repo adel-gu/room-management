@@ -7,7 +7,7 @@ import SortByItem from './SortByItem';
 
 interface Props {
   filterObj: FilterObjType;
-  sortByObj: SortByObjType;
+  sortByObj?: SortByObjType;
 }
 
 const StyledQueryOperations = styled.div`
@@ -25,11 +25,12 @@ const QueryOperations = ({ filterObj, sortByObj }: Props) => {
           <FilterItem key={item.value} item={item} field={filterObj.field} />
         )}
       />
-
-      <SortBy
-        options={sortByObj}
-        render={(item) => <SortByItem key={item.value} item={item} />}
-      />
+      {sortByObj && (
+        <SortBy
+          options={sortByObj}
+          render={(item) => <SortByItem key={item.value} item={item} />}
+        />
+      )}
     </StyledQueryOperations>
   );
 };
