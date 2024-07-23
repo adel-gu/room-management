@@ -27,8 +27,7 @@ cloudinary.config({
 // Set cors
 app.use(
   cors({
-    origin:
-      process.env.CLIENT_BASE_URL ?? 'https://room-management-gold.vercel.app',
+    origin: process.env.CLIENT_BASE_URL,
     credentials: true,
   }),
 );
