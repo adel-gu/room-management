@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './layouts/AppLayout';
 import Dashboard from './pages/Dashboard';
 import Bookings from './pages/Bookings';
@@ -25,7 +25,8 @@ const App = () => {
           </ProtectedLayout>
         }
       >
-        <Route path="/" element={<Dashboard />} />
+        <Route index element={<Navigate replace to="dashboard" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/bookings/:bookingId" element={<Booking />} />
         <Route path="checkin/:bookingId" element={<Checkin />} />
