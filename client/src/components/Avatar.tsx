@@ -1,4 +1,7 @@
+import { useGetCurrentAdmin } from '../hooks/admins';
 import styled from 'styled-components';
+import Spinner from './Spinner';
+import SpinnerContainer from './ui/SpinnerContainer';
 
 const StyledAvatar = styled.div`
   display: flex;
@@ -21,10 +24,27 @@ const AvatarImg = styled.img`
 `;
 
 const Avatar = () => {
+  const { admin, isAdminLoading } = useGetCurrentAdmin();
+
+  const fallbackAvatarImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(admin?.name ?? '')}&background=random`;
+
+  const imageUrl = admin?.image
+    ? admin.image
+    : fallbackAvatarImg;
+
   return (
     <StyledAvatar>
-      <AvatarImg />
-      <span>UserName</span>
+      {isAdminLoading ? (
+          <SpinnerContainer>
+           <Spinner size="sm" />
+          </SpinnerContainer>
+
+      ):  (
+        <>
+          <AvatarImg src={imageUrl} alt={`Avatar for ${admin?.name}`} />
+          <span>{admin?.name}</span>
+        </>
+      )}
     </StyledAvatar>
   );
 };
