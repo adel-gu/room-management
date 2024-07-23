@@ -27,7 +27,7 @@ const StyledSideBar = styled.aside`
 const navLinks = [
   {
     title: 'Dashboard',
-    path: '/',
+    path: '/dashboard',
     icon: <BarChart3 />,
   },
   {
@@ -70,12 +70,8 @@ const SideBar = () => {
       <nav>
         <NavList>
           {navLinks.map((navLink) => (
-            <li>
-              <SideNavLink
-                key={navLink.title}
-                title={navLink.title}
-                path={navLink.path}
-              >
+            <li key={navLink.title}>
+              <SideNavLink title={navLink.title} path={navLink.path}>
                 {navLink.icon}
               </SideNavLink>
             </li>
