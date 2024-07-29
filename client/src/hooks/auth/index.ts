@@ -62,7 +62,6 @@ export const useValidateAuth = () => {
   const { data: isAuthenticated = false, isLoading: isAuthLoading } = useQuery({
     queryKey: ['validateAuth'],
     queryFn: () => validateAuthRequest(),
-    retry: false,
   });
 
   return {
