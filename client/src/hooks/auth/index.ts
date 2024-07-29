@@ -11,13 +11,13 @@ import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   const navigate = useNavigate();
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const { mutate: login, isPending: isLoginLoading } = useMutation({
     mutationKey: ['login'],
     mutationFn: loginRequest,
     onSuccess: async () => {
       toast.success('Admin logged in successfully');
-      // await queryClient.invalidateQueries({ queryKey: ['validateAuth'] });
+      await queryClient.invalidateQueries({ queryKey: ['validateAuth'] });
       navigate('/');
     },
     onError: (err) => toast.error(err.message),
@@ -62,6 +62,7 @@ export const useValidateAuth = () => {
   const { data: isAuthenticated = false, isLoading: isAuthLoading } = useQuery({
     queryKey: ['validateAuth'],
     queryFn: () => validateAuthRequest(),
+    retry: false,
   });
 
   return {

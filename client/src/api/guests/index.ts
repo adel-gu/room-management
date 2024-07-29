@@ -1,6 +1,7 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { GetAllGuestsResType, GuestFormData, IGuest } from '../../types/guest';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/guests`;
+const API_BASE_URL = setApiUrl('guests');
 
 export const readAllGuestsRequest = async (
   query: string,

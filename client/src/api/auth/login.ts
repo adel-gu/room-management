@@ -1,9 +1,8 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { LoginData } from '../../types/Admin';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/login`;
-
 export const loginRequest = async (data: LoginData) => {
-  const res = await fetch(API_BASE_URL, {
+  const res = await fetch(setApiUrl('login'), {
     method: 'POST',
     credentials: 'include',
     headers: {

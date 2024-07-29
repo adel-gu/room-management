@@ -1,9 +1,8 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { verificationData } from '../../types/Admin';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/verify`;
-
 export const verifyAccountRequest = async (data: verificationData) => {
-  const res = await fetch(API_BASE_URL, {
+  const res = await fetch(setApiUrl('verify'), {
     method: 'POST',
     credentials: 'include',
     headers: {
