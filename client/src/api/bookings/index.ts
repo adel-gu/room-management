@@ -1,3 +1,4 @@
+import { setApiUrl } from '../../config/apiConfig';
 import {
   BookingFormData,
   GetAllBookingsResType,
@@ -5,7 +6,7 @@ import {
   ICheckInOut,
 } from '../../types/bookings';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/bookings`;
+const API_BASE_URL = setApiUrl('bookings');
 
 export const readAllBookingsRequest = async (
   query: string,

@@ -1,7 +1,7 @@
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/logout`;
+import { setApiUrl } from '../../config/apiConfig';
 
 export const logoutRequest = async () => {
-  const res = await fetch(API_BASE_URL, {
+  const res = await fetch(setApiUrl('logout'), {
     method: 'POST',
     credentials: 'include',
   });

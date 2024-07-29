@@ -1,6 +1,7 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { ITodayActivity } from '../../types/dashboard';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/today-activities`;
+const API_BASE_URL = setApiUrl('today-activities');
 
 export const readTodayActivitiesRequest = async (
   query: string,

@@ -1,6 +1,7 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { IStats } from '../../types/dashboard';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/dashboard`;
+const API_BASE_URL = setApiUrl('dashboard');
 
 export const readStatsRequest = async (query: string): Promise<IStats> => {
   const res = await fetch(`${API_BASE_URL}?last=${query}`, {

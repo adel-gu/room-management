@@ -1,6 +1,7 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { EditReqType, GetAllRoomsResType } from '../../types/room';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/rooms`;
+const API_BASE_URL = setApiUrl('rooms');
 
 export const readAllRoomsRequest = async (
   query: string,

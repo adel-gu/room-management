@@ -1,7 +1,7 @@
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/validate-auth`;
+import { setApiUrl } from '../../config/apiConfig';
 
 export const validateAuthRequest = async (): Promise<boolean> => {
-  const res = await fetch(API_BASE_URL, {
+  const res = await fetch(setApiUrl('validate-auth'), {
     method: 'GET',
     credentials: 'include',
   });

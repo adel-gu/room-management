@@ -1,9 +1,8 @@
+import { setApiUrl } from '../../config/apiConfig';
 import { registerData } from '../../types/Admin';
 
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/signup`;
-
 export const registerRequest = async (data: registerData) => {
-  const res = await fetch(API_BASE_URL, {
+  const res = await fetch(setApiUrl('signup'), {
     method: 'POST',
     credentials: 'include',
     headers: {
