@@ -11,19 +11,12 @@ import adminApi from './routes/adminApi';
 import auth from './controllers/auth';
 import AppErrorHandler from './utils/appErrorHandler';
 import errorRequestHandler from './controllers/errors';
+import path from 'path';
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
-// Set cors
-app.use(
-  cors({
-    origin: process.env.CLIENT_BASE_URL,
-    credentials: true,
-  }),
-);
 app.use(morgan('dev'));
 
 // Config Cloudinary
@@ -32,6 +25,16 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// Set cors
+app.use(
+  cors({
+    origin: process.env.CLIENT_BASE_URL,
+    credentials: true,
+  }),
+);
+
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 // App API
 app.use('/api/v1/', authApi);
