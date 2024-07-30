@@ -21,8 +21,7 @@ class Email {
     if (process.env.NODE_ENV === 'production') {
       return nodemailer.createTransport({
         host: process.env.PROD_EMAIL_HOST as string,
-        port: 465,
-        secure: true,
+        port: parseInt(process.env.PROD_EMAIL_PORT as string),
         auth: {
           user: process.env.PROD_EMAIL_USERNAME,
           pass: process.env.PROD_EMAIL_PASSWORD,
@@ -58,11 +57,11 @@ class Email {
   }
 
   async sendEmailVerification() {
-    await this.send('verifyEmail', 'Motel.com: Account Verification');
+    await this.send('verifyEmail', 'Motel: Account Verification');
   }
 
   async sendResetPassword() {
-    await this.send('resetPassword', 'Motel.com: Password Reset');
+    await this.send('resetPassword', 'Motel: Password Reset');
   }
 }
 
