@@ -4,6 +4,7 @@ import roomController from '../controllers/room';
 import guestsController from '../controllers/guests';
 import bookingController from '../controllers/bookings';
 import dashboard from '../controllers/dashboard';
+import settingsController from '../controllers/settings';
 
 const router = express.Router();
 
@@ -54,4 +55,10 @@ router.route('/dashboard').get(dashboard.getStats);
 router.route('/today-activities').get(dashboard.getTodayActivities);
 router.route('/stays-nights').get(dashboard.getStaysNights);
 router.route('/sales').get(dashboard.getSales);
+
+// Settings
+router
+  .route('/settings')
+  .get(settingsController.read)
+  .patch(settingsController.update);
 export default router;
