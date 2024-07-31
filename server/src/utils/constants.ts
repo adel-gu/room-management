@@ -3,6 +3,7 @@ export enum ModelsEnum {
   Guest = 'Guest',
   Booking = 'Booking',
   Admin = 'Admin',
+  Settings = 'Settings',
 }
 
 export enum RoomStatus {
