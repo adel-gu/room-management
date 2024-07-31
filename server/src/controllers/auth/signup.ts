@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 
 import Admin from '../../models/admin';
+import Settings from '../../models/settings';
 import Email from '../../services/email';
 import catchErrors from '../../utils/catchErrors';
 import AppErrorHandler from '../../utils/appErrorHandler';
@@ -29,6 +30,8 @@ const signup = catchErrors(
 
     const token = admin.generateVerificationToken();
     await admin.save();
+
+    const settings = await Settings.create({ tenantId: admin.tenantId });
 
     try {
       await new Email({ name, email }, token).sendEmailVerification();
