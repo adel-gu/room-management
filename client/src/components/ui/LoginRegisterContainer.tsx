@@ -8,6 +8,18 @@ const LoginRegisterContainer = styled.div`
   justify-content: center;
   gap: 3.2rem;
   background-color: var(--color-grey-50);
+
+  & > span {
+    text-align: center;
+
+    & > a {
+      color: var(--color-brand-500);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 `;
 
 export default LoginRegisterContainer;

@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 
 import SideNavLink from './SideNavLink';
+import Logo from './ui/Logo';
+import { Link } from 'react-router-dom';
 
 const StyledSideBar = styled.aside`
   grid-row: 1 / -1;
@@ -66,7 +68,9 @@ const NavList = styled.ul`
 const SideBar = () => {
   return (
     <StyledSideBar>
-      <span>logo</span>
+      <Link to="/">
+        <Logo />
+      </Link>
       <nav>
         <NavList>
           {navLinks.map((navLink) => (
