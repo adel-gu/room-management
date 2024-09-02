@@ -9,6 +9,7 @@ import App from './App.tsx';
 // Styles
 import GlobalStyles from './styles/index.ts';
 import { Toaster } from 'react-hot-toast';
+import ThemeContextProvider from './context/ThemeContext.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 0 } },
@@ -19,8 +20,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <GlobalStyles />
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
-        <Toaster position="top-right" reverseOrder={false} />
+        <ThemeContextProvider>
+          <App />
+          <Toaster position="top-right" reverseOrder={false} />
+        </ThemeContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
